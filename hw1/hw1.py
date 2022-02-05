@@ -1,20 +1,17 @@
 import random
 
-# initialize some useful global variables
 global in_play
-in_play = False
 global outcome
+in_play = False
 outcome = " start game"
 score = 0
 
-# define globals for cards
 SUITS = ('C', 'S', 'H', 'D')
 RANKS = ('A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K')
 VALUES = {'A': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6,
           '7': 7, '8': 8, '9': 9, 'T': 10, 'J': 10, 'Q': 10, 'K': 10}
 
 
-# define card class
 class Card:
     def __init__(self, suit, rank):
         if (suit in SUITS) and (rank in RANKS):
@@ -67,7 +64,6 @@ class Hand:
         # compute the value of the hand, see Blackjack video
 
 
-# define deck class
 class Deck:
     def __init__(self):
         self.deck = []
@@ -92,7 +88,6 @@ class Deck:
         # return a string representing the deck
 
 
-# define event handlers for buttons
 def deal():
     global outcome, in_play, theDeck, playerhand, househand, score
     if in_play:
@@ -166,3 +161,8 @@ def stand():
     # print outcome, "Score:", score
     # if hand is in play, repeatedly hit dealer until his hand has value 17 or more
     # assign a message to outcome, update in_play and score
+
+
+# simulate trial games
+def sim(trials: int):
+    pass
