@@ -33,7 +33,6 @@ class Card:
         return self.rank
 
 
-# define hand class
 class Hand:
     def __init__(self):
         self.cards = []
@@ -171,17 +170,20 @@ def hitmerandom():
 def sim(trials: int):
     pass
 
-# returns true if player won, false if dealer won
+
+"""Returns true if player won, false if dealer won."""
 def sim_game_with_random_strategy() -> bool:
     deal()
     while in_play and hitmerandom():
         hit()
     if in_play:
         stand()
+        return playerhand.get_value() > househand.get_value() or househand.get_value() > 21
 
-    return playerhand.get_value() > househand.get_value() or househand.get_value() > 21
+    return False
 
-# returns the win rate after n trials
+
+"""Returns win rate of player after n trials."""
 def random_strategy_win_rate(trials: int = 100000) -> float:
     wins = 0
     for _ in range(0, trials):
