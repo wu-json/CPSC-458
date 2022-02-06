@@ -169,8 +169,7 @@ def hitmerandom():
 
 
 """Returns whether to hit or not based on monte carlo table and threshold."""
-def hitme(playerhand, dealerfacecard):
-    threshold = 0.5
+def hitme(playerhand, dealerfacecard, threshold: float):
     win_rate = monte_carlo_table[playerhand.get_value() - 1, VALUES[dealerfacecard.get_rank()] - 1]
     return win_rate >= threshold
 
@@ -221,9 +220,9 @@ def sim_game_with_random_strategy() -> bool:
 
 
 """Returns true if player won, false if dealer won."""
-def sim_game_with_monte_carlo_strategy() -> bool:
+def sim_game_with_monte_carlo_strategy(threshold: float) -> bool:
     deal()
-    while in_play and hitme(playerhand, househand.cards[0]):
+    while in_play and hitme(playerhand, househand.cards[0], threshold):
         hit()
     if in_play:
         stand()
@@ -243,10 +242,10 @@ def random_strategy_win_rate(trials: int) -> float:
 
 
 """Returns win rate of player after n trials using monte carlo strategy."""
-def monte_carlo_strategy_win_rate(trials: int) -> float:
+def monte_carlo_strategy_win_rate(trials: int, threshold: float) -> float:
     wins = 0
     for _ in range(trials):
-        if (sim_game_with_monte_carlo_strategy()):
+        if (sim_game_with_monte_carlo_strategy(threshold)):
             wins += 1
 
     return wins/trials
@@ -254,11 +253,13 @@ def monte_carlo_strategy_win_rate(trials: int) -> float:
 
 if __name__ == '__main__':
     trials = 100000
+    threshold = 0.5
 
     print('Blackjack Simulation')
     print('----------------------------------')
 
     print('Trials:', trials)
+    print('Hit Odds Threshold:', threshold)
     print('----------------------------------')
 
     print('Preparing monte carlo table...')
@@ -267,7 +268,7 @@ if __name__ == '__main__':
 
     print('Running simulated games...')
     random_win_rate = random_strategy_win_rate(trials)
-    monte_carlo_win_rate = monte_carlo_strategy_win_rate(trials)
+    monte_carlo_win_rate = monte_carlo_strategy_win_rate(trials, threshold)
 
     print('----------------------------------')
     print('Random Win Rate:', random_win_rate)
