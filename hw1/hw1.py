@@ -1,5 +1,6 @@
 import random
 import numpy as np
+import sys
 
 global in_play
 global outcome
@@ -255,6 +256,14 @@ if __name__ == '__main__':
     trials = 100000
     threshold = 0.5
 
+    args_count = len(sys.argv)
+
+    if (args_count > 1):
+        trials = int(sys.argv[1])
+    
+    if (args_count > 2):
+        threshold = float(sys.argv[2])
+
     print('Blackjack Simulation')
     print('----------------------------------')
 
@@ -262,7 +271,7 @@ if __name__ == '__main__':
     print('Hit Odds Threshold:', threshold)
     print('----------------------------------')
 
-    print('Preparing monte carlo table...')
+    print('Generating monte carlo table...')
     sim(trials)
     print('----------------------------------')
 
