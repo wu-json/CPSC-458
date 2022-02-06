@@ -168,8 +168,17 @@ def hitmerandom():
     return random.choice([True, False])
 
 
+"""Returns whether to hit or not based on monte carlo table and threshold."""
+def hitme(playerhand, dealerfacecard):
+    threshold = 0.5
+    win_rate = monte_carlo_table[playerhand.get_value() - 1, VALUES[dealerfacecard.get_rank()] - 1]
+    return win_rate >= threshold
+
+
 """Returns a monte-carlo simulation table for n trials."""
-def sim(trials: int = 100000) :
+def sim(trials):
+    global monte_carlo_table
+
     monte_carlo_table = np.zeros((21, 10))
     wins = np.zeros((21, 10))
     occurrences = np.zeros((21, 10))
@@ -193,7 +202,8 @@ def sim(trials: int = 100000) :
 
     for i in range(21):
         for j in range(10):
-            monte_carlo_table[i][j] = wins[i][j] / occurrences[i][j]
+            if occurrences[i][j] > 0:
+                monte_carlo_table[i][j] = wins[i][j] / occurrences[i][j]
 
     return monte_carlo_table
 
@@ -210,8 +220,20 @@ def sim_game_with_random_strategy() -> bool:
     return False
 
 
-"""Returns win rate of player after n trials."""
-def random_strategy_win_rate(trials: int = 100000) -> float:
+"""Returns true if player won, false if dealer won."""
+def sim_game_with_monte_carlo_strategy() -> bool:
+    deal()
+    while in_play and hitme(playerhand, househand.cards[0]):
+        hit()
+    if in_play:
+        stand()
+        return playerhand.get_value() > househand.get_value() or househand.get_value() > 21
+
+    return False
+
+
+"""Returns win rate of player after n trials using random strategy."""
+def random_strategy_win_rate(trials: int) -> float:
     wins = 0
     for _ in range(trials):
         if (sim_game_with_random_strategy()):
@@ -220,6 +242,33 @@ def random_strategy_win_rate(trials: int = 100000) -> float:
     return wins/trials
 
 
+"""Returns win rate of player after n trials using monte carlo strategy."""
+def monte_carlo_strategy_win_rate(trials: int) -> float:
+    wins = 0
+    for _ in range(trials):
+        if (sim_game_with_monte_carlo_strategy()):
+            wins += 1
+
+    return wins/trials
+
+
 if __name__ == '__main__':
-    print('Simulating games with random strategy...')
-    print('Random Strategy Win Rate:', random_strategy_win_rate())
+    trials = 100000
+
+    print('Blackjack Simulation')
+    print('----------------------------------')
+
+    print('Trials:', trials)
+    print('----------------------------------')
+
+    print('Preparing monte carlo table...')
+    sim(trials)
+    print('----------------------------------')
+
+    print('Running simulated games...')
+    random_win_rate = random_strategy_win_rate(trials)
+    monte_carlo_win_rate = monte_carlo_strategy_win_rate(trials)
+
+    print('----------------------------------')
+    print('Random Win Rate:', random_win_rate)
+    print('Monte Carlo Win Rate:', monte_carlo_win_rate)
