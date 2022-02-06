@@ -163,6 +163,11 @@ def stand():
     # if hand is in play, repeatedly hit dealer until his hand has value 17 or more
     # assign a message to outcome, update in_play and score
 
+"""
+Any code below this point was written by me from scratch and was not provided by
+the starter code.
+"""
+
 
 """Randomly returns whether to hit or not."""
 def hitmerandom():
@@ -233,7 +238,7 @@ def sim_game_with_monte_carlo_strategy(threshold: float) -> bool:
 
 
 """Returns win rate of player after n trials using random strategy."""
-def random_strategy_win_rate(trials: int) -> float:
+def play_randomly(trials: int) -> float:
     wins = 0
     for _ in range(trials):
         if (sim_game_with_random_strategy()):
@@ -243,7 +248,7 @@ def random_strategy_win_rate(trials: int) -> float:
 
 
 """Returns win rate of player after n trials using monte carlo strategy."""
-def monte_carlo_strategy_win_rate(trials: int, threshold: float) -> float:
+def play(trials: int, threshold: float) -> float:
     wins = 0
     for _ in range(trials):
         if (sim_game_with_monte_carlo_strategy(threshold)):
@@ -252,6 +257,14 @@ def monte_carlo_strategy_win_rate(trials: int, threshold: float) -> float:
     return wins/trials
 
 
+"""
+Main script for running the simulation. First argument is trials and 
+second argument is the hit threshold. You can run the script like so:
+
+python3 hw1.py 100000 0.23
+
+By default 100000 trials will be run with a hit threshold of 0.5
+"""
 if __name__ == '__main__':
     trials = 100000
     threshold = 0.5
@@ -278,8 +291,8 @@ if __name__ == '__main__':
     print('----------------------------------')
 
     print('Running simulated games...')
-    random_win_rate = random_strategy_win_rate(trials)
-    monte_carlo_win_rate = monte_carlo_strategy_win_rate(trials, threshold)
+    random_win_rate = play_randomly(trials)
+    monte_carlo_win_rate = play(trials, threshold)
 
     print('----------------------------------')
     print('Random Win Rate:', random_win_rate)
