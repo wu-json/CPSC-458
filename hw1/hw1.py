@@ -284,3 +284,4 @@ if __name__ == '__main__':
     print('----------------------------------')
     print('Random Win Rate:', random_win_rate)
     print('Monte Carlo Win Rate:', monte_carlo_win_rate)
+    print('Games won by player:', int(monte_carlo_win_rate * trials))
