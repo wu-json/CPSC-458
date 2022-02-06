@@ -273,6 +273,8 @@ if __name__ == '__main__':
 
     print('Generating monte carlo table...')
     sim(trials)
+    print('Monte carlo table generated:')
+    print(monte_carlo_table)
     print('----------------------------------')
 
     print('Running simulated games...')
