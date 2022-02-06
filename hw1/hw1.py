@@ -163,6 +163,7 @@ def stand():
     # assign a message to outcome, update in_play and score
 
 
+"""Randomly returns whether to hit or not."""
 def hitmerandom():
     return random.choice([True, False])
 
