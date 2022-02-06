@@ -167,8 +167,34 @@ def hitmerandom():
     return random.choice([True, False])
 
 
-def sim(trials: int):
-    pass
+"""Returns a monte-carlo simulation table for n trials."""
+def sim(trials: int = 100000) :
+    monte_carlo_table = np.zeros((21, 10))
+    wins = np.zeros((21, 10))
+    occurrences = np.zeros((21, 10))
+
+    for _ in range(trials):
+        deal()
+
+        hit_hands = []
+        while in_play and hitmerandom():
+            hit_hands.append([playerhand.get_value(), VALUES[househand.cards[0].get_rank()]])
+            hit()
+        if in_play:
+            stand()
+
+            if playerhand.get_value() > househand.get_value() or househand.get_value() > 21:
+                for hand in hit_hands:
+                    wins[hand[0] - 1, hand[1] - 1] += 1
+
+        for hand in hit_hands:
+            occurrences[hand[0] - 1, hand[1] - 1] += 1
+
+    for i in range(21):
+        for j in range(10):
+            monte_carlo_table[i][j] = wins[i][j] / occurrences[i][j]
+
+    return monte_carlo_table
 
 
 """Returns true if player won, false if dealer won."""
@@ -186,7 +212,7 @@ def sim_game_with_random_strategy() -> bool:
 """Returns win rate of player after n trials."""
 def random_strategy_win_rate(trials: int = 100000) -> float:
     wins = 0
-    for _ in range(0, trials):
+    for _ in range(trials):
         if (sim_game_with_random_strategy()):
             wins += 1
 
