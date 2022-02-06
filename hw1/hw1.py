@@ -1,4 +1,5 @@
 import random
+import numpy as np
 
 global in_play
 global outcome
@@ -163,6 +164,33 @@ def stand():
     # assign a message to outcome, update in_play and score
 
 
-# simulate trial games
+def hitmerandom():
+    return random.choice([True, False])
+
+
 def sim(trials: int):
     pass
+
+# returns true if player won, false if dealer won
+def sim_game_with_random_strategy() -> bool:
+    deal()
+    while in_play and hitmerandom():
+        hit()
+    if in_play:
+        stand()
+
+    return playerhand.get_value() > househand.get_value() or househand.get_value() > 21
+
+# returns the win rate after n trials
+def random_strategy_win_rate(trials: int = 100000) -> float:
+    wins = 0
+    for _ in range(0, trials):
+        if (sim_game_with_random_strategy()):
+            wins += 1
+
+    return wins/trials
+
+
+if __name__ == '__main__':
+    print('Simulating games with random strategy...')
+    print('Random Strategy Win Rate:', random_strategy_win_rate())
