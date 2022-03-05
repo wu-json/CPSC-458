@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "9e4b9c25b20a293e3cc7bef34d981c37d0dbda08e7c0d7d57cc05967ee824c81"
+            "sha256": "11ced89704def8e5c9207f4d3407178c4685eba8ff82a2af38c4772cc2e4fd0e"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -21,7 +21,7 @@
                 "sha256:93aa393e9d6c54c5cd570ccadd8edad61ea0c4b9ea7a01409020c9aa019eb442",
                 "sha256:dd83cd4b5b460958838f6eb3000c660b1f9caf2a5b1de4264e941512f603258a"
             ],
-            "markers": "platform_system == 'Darwin'",
+            "markers": "sys_platform == 'darwin'",
             "version": "==0.1.2"
         },
         "argon2-cffi": {
@@ -351,6 +351,14 @@
             "markers": "python_version >= '3.6'",
             "version": "==1.0.2"
         },
+        "jupyterthemes": {
+            "hashes": [
+                "sha256:2a8ebc0c84b212ab99b9f1757fc0582a3f53930d3a75b2492d91a7c8b36ab41e",
+                "sha256:4bd42fc88a06e3afabbe70c2ee25e6467147512993a3cbd9bec57ae3fd2e2fb1"
+            ],
+            "index": "pypi",
+            "version": "==0.20.0"
+        },
         "kiwisolver": {
             "hashes": [
                 "sha256:0007840186bacfaa0aba4466d5890334ea5938e0bb7e28078a0eb0e63b5b59d5",
@@ -400,6 +408,13 @@
             ],
             "markers": "python_version >= '3.7'",
             "version": "==1.3.2"
+        },
+        "lesscpy": {
+            "hashes": [
+                "sha256:7f7437df153ca9221beb5425c189d1523f95f864d1400f311598527ff03248d7",
+                "sha256:ef058fb3fca077f0136222c415bc6d20fe256e92648ccbf4b3de874ba03b9b9d"
+            ],
+            "version": "==0.15.0"
         },
         "lxml": {
             "hashes": [
@@ -638,7 +653,7 @@
                 "sha256:badca914580eb46385e7f7e4e426fea6de0a37b9e06bec252e481ae7ec287082",
                 "sha256:d76a26c5118c4d96e264acc9e3242d72e1a2b92e739807b3b69d8d47684b6677"
             ],
-            "markers": "python_version >= '3.8'",
+            "markers": "python_version < '3.10' and platform_machine != 'aarch64' and platform_machine != 'arm64'",
             "version": "==1.22.2"
         },
         "packaging": {
@@ -747,6 +762,13 @@
             ],
             "markers": "python_version >= '3.7'",
             "version": "==9.0.1"
+        },
+        "ply": {
+            "hashes": [
+                "sha256:00c7c1aaa88358b9c765b6d3000c6eec0ba42abca5351b095321aef446081da3",
+                "sha256:096f9b8350b65ebd2fd1346b12452efe5b9607f7482813ffca50c22722a807ce"
+            ],
+            "version": "==3.11"
         },
         "prometheus-client": {
             "hashes": [

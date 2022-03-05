@@ -9,6 +9,7 @@ yfinance = "*"
 matplotlib = "*"
 jupyter = "*"
 yahoofinancials = "*"
+jupyterthemes = "*"
 
 [dev-packages]
 
