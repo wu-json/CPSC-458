@@ -4,11 +4,13 @@
     "cli": "yarn ts-node src/main.ts"
   },
   "devDependencies": {
+    "@types/node": "^17.0.31",
     "ts-node": "^10.7.0",
     "typescript": "^4.6.4"
   },
   "dependencies": {
     "commander": "^9.2.0",
+    "pg": "^8.7.3",
     "typeorm": "^0.3.6"
   }
 }
