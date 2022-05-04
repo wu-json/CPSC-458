@@ -1,4 +1,4 @@
-import { Ability, CurrentStatus, Item, Pokemon } from "./types";
+import { Ability, CurrentStatus, Item, Move, Pokemon } from "./types";
 
 export class Snorlax implements Pokemon {
   public hp: number;
@@ -12,10 +12,10 @@ export class Snorlax implements Pokemon {
   public status: CurrentStatus | null;
   public item: Item | null;
 
-  public move1Name: string;
-  public move2Name: string;
-  public move3Name: string;
-  public move4Name: string;
+  public move1: Move;
+  public move2: Move;
+  public move3: Move;
+  public move4: Move;
 
   public constructor(item: Item | null = null) {
     /**
@@ -33,10 +33,44 @@ export class Snorlax implements Pokemon {
     this.status = null;
     this.item = item;
 
-    this.move1Name = 'Rest';
-    this.move2Name = 'Fire Punch';
-    this.move3Name = 'Body Slam';
-    this.move4Name = 'Crunch';
+    this.move1 = {
+      name: "Rest",
+      currentPP: 10,
+      totalPP: 10,
+      use: (pokemon: Pokemon) => {
+        return this;
+      },
+    };
+
+    this.move2 = {
+      name: "Fire Punch",
+      currentPP: 15,
+      totalPP: 15,
+      accuracy: 100,
+      use: (pokemon: Pokemon) => {
+        return this;
+      },
+    };
+
+    this.move3 = {
+      name: "Body Slam",
+      currentPP: 15,
+      totalPP: 15,
+      accuracy: 100,
+      use: (pokemon: Pokemon) => {
+        return this;
+      },
+    };
+
+    this.move4 = {
+      name: "Crunch",
+      currentPP: 15,
+      totalPP: 15,
+      accuracy: 88,
+      use: (pokemon: Pokemon) => {
+        return this;
+      },
+    };
   }
 
   public useMove1 = (pokemon: Pokemon) => {
