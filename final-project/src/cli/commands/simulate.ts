@@ -1,5 +1,10 @@
 import { Command } from "commander";
+
+import { battle } from "../battle/battle";
 import dataSource from "../connections/typeorm";
+import { Item } from "../pokemon/types";
+import { Gliscor } from "../pokemon/Gliscor";
+import { Snorlax } from "../pokemon/Snorlax";
 
 const simulate = new Command()
   .command("simulate")
@@ -20,6 +25,15 @@ const simulate = new Command()
 
       const battlesToSimulate = battles ? parseInt(battles) : 100;
       console.log(`Simulating ${battlesToSimulate} battles.`);
+
+      const gliscor = new Gliscor(Item.ToxicOrb);
+      const snorlax = new Snorlax(Item.Leftovers);
+
+      const result = await battle(gliscor, snorlax);
+
+      console.log("RESULT:::");
+      console.log(result);
+
       process.exit(0);
     } catch (error) {
       console.error(`Something went wrong: ${error}`);
