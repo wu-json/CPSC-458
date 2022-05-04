@@ -13,11 +13,20 @@ type CurrentStatus = {
 };
 
 /**
+ * Items.
+ */
+enum Item {
+  Leftovers = "Leftovers",
+  ToxicOrb = "ToxicOrb",
+}
+
+/**
  * Generic pokemon interface.
  */
 export interface Pokemon {
   hp: number;
-  status: CurrentStatus;
+  status: CurrentStatus | null;
+  item: Item | null;
 
   /**
    * These moves take a target pokemon, apply the
