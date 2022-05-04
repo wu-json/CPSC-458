@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "es6",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "noImplicitAny": false,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "build",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false
+  },
+  "include": ["src/**/*", "tests/**/*"],
+  "exclude": ["node_modules/**/*", "build/**/*"]
+}
