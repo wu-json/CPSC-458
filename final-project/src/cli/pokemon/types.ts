@@ -29,11 +29,19 @@ export interface Pokemon {
   item: Item | null;
 
   /**
-   * These moves take a target pokemon, apply the
-   * effects and return the updated Pokemon.
+   * For logging purposes.
    */
-  move1: (pokemon: Pokemon) => Pokemon;
-  move2: (pokemon: Pokemon) => Pokemon;
-  move3: (pokemon: Pokemon) => Pokemon;
-  move4: (pokemon: Pokemon) => Pokemon;
+  move1Name: string;
+  move2Name: string;
+  move3Name: string;
+  move4Name: string;
+
+  /**
+   * useMoves takes a target pokemon, applies the
+   * effects and returns the updated Pokemon.
+   */
+  useMove1: (pokemon: Pokemon) => Pokemon;
+  useMove2: (pokemon: Pokemon) => Pokemon;
+  useMove3: (pokemon: Pokemon) => Pokemon;
+  useMove4: (pokemon: Pokemon) => Pokemon;
 }
