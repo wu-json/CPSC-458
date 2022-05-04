@@ -1,0 +1,11 @@
+import { Pokemon, Status } from "../pokemon/types";
+
+export const shouldSkipFromParalysisOrSleep = (pokemon: Pokemon): Boolean => {
+  if (pokemon.status.status === Status.Paralyzed) {
+    return Math.random() >= 0.75;
+  } else if (pokemon.status.status === Status.Sleep) {
+
+  } else {
+    return false;
+  }
+};

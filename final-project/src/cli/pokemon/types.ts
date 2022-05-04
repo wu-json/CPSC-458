@@ -32,6 +32,8 @@ export interface Move {
 }
 
 export interface Pokemon {
+  name: string;
+  
   /**
    * Stats (fixed during battle).
    */

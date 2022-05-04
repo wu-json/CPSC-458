@@ -28,6 +28,10 @@ export const battle = async (
       : slowerPokemon;
 
     /**
+     * Handle sleep and paralyzed status ailments.
+     */
+
+    /**
      * Update variables after turn.
      */
     if (fasterPokemonFinishedTurn) {

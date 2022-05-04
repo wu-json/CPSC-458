@@ -1,6 +1,8 @@
 import { Ability, CurrentStatus, Item, Move, Pokemon } from "./types";
 
 export class Snorlax implements Pokemon {
+  public name: string;
+
   public totalHp: number;
   public attack: number;
   public defense: number;
@@ -19,6 +21,8 @@ export class Snorlax implements Pokemon {
   public move4: Move;
 
   public constructor(item: Item | null = null) {
+    this.name = 'Snorlax';
+    
     /**
      * Stats taken from Smogon:
      * https://www.smogon.com/dex/sm/pokemon/snorlax/battle-spot-singles/

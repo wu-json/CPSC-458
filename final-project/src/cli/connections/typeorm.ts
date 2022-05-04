@@ -1,5 +1,5 @@
 import { DataSource } from "typeorm";
-import { GliscorMove } from "../entity/GliscorMove";
+import { Move } from "../entity/Move";
 
 const dataSource = new DataSource({
   type: "postgres",
@@ -7,8 +7,8 @@ const dataSource = new DataSource({
   port: 5432,
   username: "user",
   password: "pass",
-  database: "gliscor-simulation",
-  entities: [GliscorMove],
+  database: "pokemon-simulation",
+  entities: [Move],
   synchronize: true,
 });
 

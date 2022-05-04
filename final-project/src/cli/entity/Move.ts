@@ -9,13 +9,16 @@ import {
 } from "typeorm";
 
 @Entity()
-export class GliscorMove extends BaseEntity {
+export class Move extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
   @Index()
   @Column({ unique: true })
   situation: string;
+
+  @Column()
+  pokemonName: string;
 
   @Column()
   move: number;
