@@ -1,7 +1,7 @@
 import { Ability, CurrentStatus, Item, Move, Pokemon } from "./types";
 
 export class Snorlax implements Pokemon {
-  public hp: number;
+  public totalHp: number;
   public attack: number;
   public defense: number;
   public spAttack: number;
@@ -9,6 +9,7 @@ export class Snorlax implements Pokemon {
   public speed: number;
   public ability: Ability;
 
+  public currentHp: number;
   public status: CurrentStatus | null;
   public item: Item | null;
 
@@ -22,7 +23,7 @@ export class Snorlax implements Pokemon {
      * Stats taken from Smogon:
      * https://www.smogon.com/dex/sm/pokemon/snorlax/battle-spot-singles/
      */
-    this.hp = 160;
+    this.totalHp = 160;
     this.attack = 110;
     this.defense = 65;
     this.spAttack = 65;
@@ -30,6 +31,7 @@ export class Snorlax implements Pokemon {
     this.speed = 30;
     this.ability = Ability.Gluttony;
 
+    this.currentHp = this.totalHp;
     this.status = null;
     this.item = item;
 

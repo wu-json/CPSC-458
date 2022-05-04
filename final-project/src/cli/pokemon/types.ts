@@ -35,7 +35,7 @@ export interface Pokemon {
   /**
    * Stats (fixed during battle).
    */
-  hp: number;
+  totalHp: number;
   attack: number;
   defense: number;
   spAttack: number;
@@ -46,6 +46,7 @@ export interface Pokemon {
   /**
    * Status ailments + items (may change during battle).
    */
+  currentHp: number;
   status: CurrentStatus | null;
   item: Item | null;
 

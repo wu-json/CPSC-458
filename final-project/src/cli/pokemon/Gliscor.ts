@@ -1,7 +1,7 @@
 import { Ability, CurrentStatus, Item, Move, Pokemon } from "./types";
 
 export class Gliscor implements Pokemon {
-  public hp: number;
+  public totalHp: number;
   public attack: number;
   public defense: number;
   public spAttack: number;
@@ -9,6 +9,7 @@ export class Gliscor implements Pokemon {
   public speed: number;
   public ability: Ability;
 
+  public currentHp: number;
   public status: CurrentStatus | null;
   public item: Item | null;
 
@@ -22,7 +23,7 @@ export class Gliscor implements Pokemon {
      * Stats taken from Smogon:
      * https://www.smogon.com/dex/sm/pokemon/gliscor/battle-spot-singles/
      */
-    this.hp = 75;
+    this.totalHp = 75;
     this.attack = 95;
     this.defense = 125;
     this.spAttack = 45;
@@ -30,6 +31,7 @@ export class Gliscor implements Pokemon {
     this.speed = 95;
     this.ability = Ability.PoisonHeal;
 
+    this.currentHp = this.totalHp;
     this.status = null;
     this.item = item;
 
