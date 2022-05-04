@@ -1,7 +1,7 @@
 {
   "license": "MIT",
   "scripts": {
-    "cli": "yarn ts-node src/main.ts"
+    "cli": "yarn ts-node src/cli/main.ts"
   },
   "devDependencies": {
     "@types/node": "^17.0.31",
