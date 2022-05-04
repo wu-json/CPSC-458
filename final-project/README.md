@@ -15,8 +15,6 @@ This project simulates a battle between a Pokemon called Gliscor (left) and Snor
 
 I chose Gliscor as the basis for the simulation since there is an optimal strategy with Gliscor. The optimal strategy is to inflict poison on the enemy as soon as possible, and then last as long as possible by spamming heals when necessary and attacking otherwise. I chose Snorlax as the opposing Pokemon since it is known for being a strong defensive pick, therefore making sure that the battles will last enough time for the Gliscor poison strategy to actually matter.
 
-Note however, that the simulation I created is much less complicated than what occurs in actual games. I did not account for Pokemon stats like EVs and IVs since they are a bit convoluted and would be overkill to implement for this project.
-
 ## Simulation Implementation
 
 I wrote the simulation using TypeScript since I've been using Python the entire course and thought this would be a refreshing language to work with. In addition, I'm a bit more familiar with database libraries in TypeScript, so it proved to be pretty useful here for storing the Monte Carlo table.

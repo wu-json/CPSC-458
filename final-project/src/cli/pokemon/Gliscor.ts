@@ -17,6 +17,10 @@ export class Gliscor implements Pokemon {
   public move4Name: string;
 
   public constructor(item: Item | null = null) {
+    /**
+     * Stats taken from Smogon:
+     * https://www.smogon.com/dex/sm/pokemon/gliscor/battle-spot-singles/
+     */
     this.hp = 75;
     this.attack = 95;
     this.defense = 125;
