@@ -15,10 +15,18 @@ This project simulates a battle between a Pokemon called Gliscor (left) and Snor
 
 I chose Gliscor as the basis for the simulation since there is an optimal strategy with Gliscor. The optimal strategy is to inflict poison on the enemy as soon as possible, and then last as long as possible by spamming heals when necessary and attacking otherwise. I chose Snorlax as the opposing Pokemon since it is known for being a strong defensive pick, therefore making sure that the battles will last enough time for the Gliscor poison strategy to actually matter.
 
+Note however, that the simulation I created is much less complicated than what occurs in actual games. I did not account for Pokemon stats like EVs and IVs since they are a bit convoluted and would be overkill to implement for this project.
+
 ## Simulation Implementation
-I wrote the simulation using TypeScript since I've been using Python the entire course and thought this would be a refreshing language to work with. 
+
+I wrote the simulation using TypeScript since I've been using Python the entire course and thought this would be a refreshing language to work with. In addition, I'm a bit more familiar with database libraries in TypeScript, so it proved to be pretty useful here for storing the Monte Carlo table.
+
+The simulation runs battles and keeps tracks of wins and losses in a Monte Carlo table stored in Postgres. I decided to store these entries in an actual database instead of in-memory like we did in hw1 because I thought it would be possible that much more games would be required to actually get the optimal Gliscor strategy since there are many more options and states here than in Blackjack. In addition, it also meant that I could construct the Monte Carlo table incrementally instead of having to create it from the bottom-up every single time I ran the simulation script.
+
+I used the `commander` library to allow users to run the simulations using a simple command in the terminal. To run the simulations, follow the directions in the next section.
 
 ## Running the Simulation
+
 To run the simulated games, you will first need to install the necessary npm packages required to run the simulation command. From there, you need to make sure the Docker container is running on your machine. This is necessary in order to have Postgres running:
 
 ```bash
@@ -40,5 +48,3 @@ yarn cli simulate
 # example call with 10,000 battles
 yarn cli simulate 10000
 ```
-
-
