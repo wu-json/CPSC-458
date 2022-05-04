@@ -72,20 +72,4 @@ export class Snorlax implements Pokemon {
       },
     };
   }
-
-  public useMove1 = (pokemon: Pokemon) => {
-    return this;
-  };
-
-  public useMove2 = (pokemon: Pokemon) => {
-    return this;
-  };
-
-  public useMove3 = (pokemon: Pokemon) => {
-    return this;
-  };
-
-  public useMove4 = (pokemon: Pokemon) => {
-    return this;
-  };
 }
