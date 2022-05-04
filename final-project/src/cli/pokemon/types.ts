@@ -24,7 +24,19 @@ enum Item {
  * Generic pokemon interface.
  */
 export interface Pokemon {
+  /**
+   * Stats (fixed during battle).
+   */
   hp: number;
+  attack: number;
+  defense: number;
+  spAttack: number;
+  spDefense: number;
+  speed: number;
+
+  /**
+   * Status ailments + items (may change during battle).
+   */
   status: CurrentStatus | null;
   item: Item | null;
 
