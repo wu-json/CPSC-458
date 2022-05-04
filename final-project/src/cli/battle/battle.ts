@@ -1,4 +1,5 @@
 import { Pokemon } from "../pokemon/types";
+import { shouldSkipFromParalysisOrSleep } from "./utils";
 
 type BattleResult = {
   winner: Pokemon;
@@ -27,9 +28,19 @@ export const battle = async (
       ? fasterPokemon
       : slowerPokemon;
 
+    console.log(`Turn: ${turn}, Current Pokemon: ${currentPokemon.name}`);
+
     /**
      * Handle sleep and paralyzed status ailments.
      */
+    const skipFromParalysisOrSleep =
+      shouldSkipFromParalysisOrSleep(currentPokemon);
+
+    /**
+     * Handle turn.
+     */
+    if (!skipFromParalysisOrSleep) {
+    }
 
     /**
      * Update variables after turn.
