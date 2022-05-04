@@ -1,28 +1,36 @@
-/**
- * Status types.
- */
-enum Status {
+export enum Status {
   Paralyzed = "Paralyzed",
   Poisoned = "Poisoned",
   Sleep = "Sleep",
 }
 
-type CurrentStatus = {
+export type CurrentStatus = {
   status: Status;
   turnsPassedSinceInflicted: number;
 };
 
-/**
- * Items.
- */
-enum Item {
+export enum Ability {
+  PoisonHeal = "PoisonHeal",
+  Gluttony = "Gluttony",
+}
+
+export enum Item {
   Leftovers = "Leftovers",
   ToxicOrb = "ToxicOrb",
 }
 
-/**
- * Generic pokemon interface.
- */
+export interface Move {
+  name: string;
+  currentPP: number;
+  totalPP: number;
+  accuracy?: number;
+  /**
+   * use takes a target pokemon, applies the
+   * effects and returns the updated Pokemon.
+   */
+  use: (pokemon: Pokemon) => Pokemon;
+}
+
 export interface Pokemon {
   /**
    * Stats (fixed during battle).
@@ -33,6 +41,7 @@ export interface Pokemon {
   spAttack: number;
   spDefense: number;
   speed: number;
+  ability: Ability;
 
   /**
    * Status ailments + items (may change during battle).
@@ -41,19 +50,10 @@ export interface Pokemon {
   item: Item | null;
 
   /**
-   * For logging purposes.
+   * Moves.
    */
-  move1Name: string;
-  move2Name: string;
-  move3Name: string;
-  move4Name: string;
-
-  /**
-   * useMoves takes a target pokemon, applies the
-   * effects and returns the updated Pokemon.
-   */
-  useMove1: (pokemon: Pokemon) => Pokemon;
-  useMove2: (pokemon: Pokemon) => Pokemon;
-  useMove3: (pokemon: Pokemon) => Pokemon;
-  useMove4: (pokemon: Pokemon) => Pokemon;
+  move1: Move;
+  move2: Move;
+  move3: Move;
+  move4: Move;
 }

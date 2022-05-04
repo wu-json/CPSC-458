@@ -1,4 +1,4 @@
-import { CurrentStatus, Item, Pokemon } from "./types";
+import { Ability, CurrentStatus, Item, Move, Pokemon } from "./types";
 
 export class Gliscor implements Pokemon {
   public hp: number;
@@ -7,14 +7,15 @@ export class Gliscor implements Pokemon {
   public spAttack: number;
   public spDefense: number;
   public speed: number;
+  public ability: Ability;
 
   public status: CurrentStatus | null;
   public item: Item | null;
 
-  public move1Name: string;
-  public move2Name: string;
-  public move3Name: string;
-  public move4Name: string;
+  public move1: Move;
+  public move2: Move;
+  public move3: Move;
+  public move4: Move;
 
   public constructor(item: Item | null = null) {
     /**
@@ -27,24 +28,47 @@ export class Gliscor implements Pokemon {
     this.spAttack = 45;
     this.spDefense = 75;
     this.speed = 95;
+    this.ability = Ability.PoisonHeal;
 
     this.status = null;
     this.item = item;
+
+    this.move1 = {
+      name: "Earthquake",
+      currentPP: 10,
+      totalPP: 10,
+      accuracy: 100,
+      use: (pokemon: Pokemon) => {
+        return this;
+      },
+    };
+
+    this.move2 = {
+      name: "Roost",
+      currentPP: 14,
+      totalPP: 14,
+      use: (pokemon: Pokemon) => {
+        return this;
+      },
+    };
+
+    this.move1 = {
+      name: "Protect",
+      currentPP: 10,
+      totalPP: 10,
+      use: (pokemon: Pokemon) => {
+        return this;
+      },
+    };
+
+    this.move1 = {
+      name: "Toxic",
+      currentPP: 12,
+      totalPP: 12,
+      accuracy: 100,
+      use: (pokemon: Pokemon) => {
+        return this;
+      },
+    };
   }
-
-  public useMove1 = (pokemon: Pokemon) => {
-    return this;
-  };
-
-  public useMove2 = (pokemon: Pokemon) => {
-    return this;
-  };
-
-  public useMove3 = (pokemon: Pokemon) => {
-    return this;
-  };
-
-  public useMove4 = (pokemon: Pokemon) => {
-    return this;
-  };
 }
