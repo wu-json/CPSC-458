@@ -1,15 +1,18 @@
 import { sample } from "lodash/fp";
 import { Ability, Item, Pokemon, Status } from "../pokemon/types";
 
-export const shouldSkipFromStatus = (pokemon: Pokemon): boolean => {
+export const shouldSkipFromStatus = (
+  pokemon: Pokemon,
+  verbose: boolean = false
+): boolean => {
   if (pokemon.status?.status === Status.Sleep) {
     const skip = Math.random() >= 0.66;
     if (skip) {
-      console.log(`${pokemon.name} is fast asleep.`);
+      verbose && console.log(`${pokemon.name} is fast asleep.`);
       return true;
     } else {
       pokemon.status = null;
-      console.log(`${pokemon.name} woke up from sleep!`);
+      verbose && console.log(`${pokemon.name} woke up from sleep!`);
       return false;
     }
   } else {
@@ -46,7 +49,10 @@ export const checkForOutcome = (
   return {};
 };
 
-export const applyPregameItemUpdates = (pokemon: Pokemon) => {
+export const applyPregameItemUpdates = (
+  pokemon: Pokemon,
+  verbose: boolean = false
+) => {
   if (!pokemon.item) {
     return;
   }
@@ -56,11 +62,14 @@ export const applyPregameItemUpdates = (pokemon: Pokemon) => {
       status: Status.Poisoned,
       turnsPassedSinceInflicted: 0,
     };
-    console.log(`${pokemon.name} was poisoned by the Toxic Orb.`);
+    verbose && console.log(`${pokemon.name} was poisoned by the Toxic Orb.`);
   }
 };
 
-export const applyPostTurnStatusUpdates = (pokemon: Pokemon) => {
+export const applyPostTurnStatusUpdates = (
+  pokemon: Pokemon,
+  verbose: boolean = false
+) => {
   if (!pokemon.status?.status) {
     return;
   }
@@ -77,7 +86,8 @@ export const applyPostTurnStatusUpdates = (pokemon: Pokemon) => {
       pokemon.currentHp + healAmount
     );
     const hpDiff = pokemon.currentHp - startingHp;
-    console.log(`${pokemon.name} healed ${hpDiff} hp from poison heal.`);
+    verbose &&
+      console.log(`${pokemon.name} healed ${hpDiff} hp from poison heal.`);
   } else if (isPoisoned) {
     const multiplier = Math.min(
       15,
@@ -86,13 +96,16 @@ export const applyPostTurnStatusUpdates = (pokemon: Pokemon) => {
     const damageAmount = Math.round(pokemon.totalHp / 16) * multiplier;
     pokemon.currentHp = Math.max(0, pokemon.currentHp - damageAmount);
     const hpDiff = startingHp - pokemon.currentHp;
-    console.log(`${pokemon.name} lost ${hpDiff} hp from poison.`);
+    verbose && console.log(`${pokemon.name} lost ${hpDiff} hp from poison.`);
   }
 
   pokemon.status.turnsPassedSinceInflicted++;
 };
 
-export const applyPostTurnItemUpdates = (pokemon: Pokemon) => {
+export const applyPostTurnItemUpdates = (
+  pokemon: Pokemon,
+  verbose: boolean = false
+) => {
   if (!pokemon.item) {
     return;
   }
@@ -106,7 +119,8 @@ export const applyPostTurnItemUpdates = (pokemon: Pokemon) => {
       pokemon.currentHp + healAmount
     );
     const hpDiff = pokemon.currentHp - startingHp;
-    console.log(`${pokemon.name} healed ${hpDiff} hp from leftovers.`);
+    verbose &&
+      console.log(`${pokemon.name} healed ${hpDiff} hp from leftovers.`);
   }
 };
 
@@ -115,11 +129,15 @@ export const applyPostTurnItemUpdates = (pokemon: Pokemon) => {
  * has been achieved. It is also responsible for inflicting status-related
  * damage, applying item effects, and handling moves + PP management.
  */
-export const handleTurn = (attacker: Pokemon, defender: Pokemon): Outcome => {
+export const handleTurn = (
+  attacker: Pokemon,
+  defender: Pokemon,
+  verbose: boolean = false
+): Outcome => {
   /**
    * Handle status ailments that result in skipping turns.
    */
-  const skipFromStatus = shouldSkipFromStatus(attacker);
+  const skipFromStatus = shouldSkipFromStatus(attacker, verbose);
   if (skipFromStatus) return {};
 
   /**
@@ -139,30 +157,36 @@ export const handleTurn = (attacker: Pokemon, defender: Pokemon): Outcome => {
    * Handle protect case, otherwise just use the move.
    */
   if (isDamagingMove && defender.isProtected) {
-    console.log(
-      `${attacker.name} used ${attacker[selectedMoveKey!].name} but ${
-        defender.name
-      } protected itself.`
-    );
+    verbose &&
+      console.log(
+        `${attacker.name} used ${attacker[selectedMoveKey!].name} but ${
+          defender.name
+        } protected itself.`
+      );
   } else if (isDamagingMove) {
     attacker[selectedMoveKey!].use(defender);
     const hpDiff = defenderOldHp - defender.currentHp;
-    console.log(
-      `${attacker.name} used ${
-        attacker[selectedMoveKey!].name
-      } and dealt ${hpDiff} hp of damage.`
-    );
+    verbose &&
+      console.log(
+        `${attacker.name} used ${
+          attacker[selectedMoveKey!].name
+        } and dealt ${hpDiff} hp of damage.`
+      );
   } else {
     attacker[selectedMoveKey!].use(defender);
     const hpDiff = attacker.currentHp - attackerOldHp;
     if (hpDiff > 0) {
-      console.log(
-        `${attacker.name} used ${
-          attacker[selectedMoveKey!].name
-        } and healed ${hpDiff} hp.`
-      );
+      verbose &&
+        console.log(
+          `${attacker.name} used ${
+            attacker[selectedMoveKey!].name
+          } and healed ${hpDiff} hp.`
+        );
     } else {
-      console.log(`${attacker.name} used ${attacker[selectedMoveKey!].name}.`);
+      verbose &&
+        console.log(
+          `${attacker.name} used ${attacker[selectedMoveKey!].name}.`
+        );
     }
   }
 
@@ -170,9 +194,10 @@ export const handleTurn = (attacker: Pokemon, defender: Pokemon): Outcome => {
   defender.isProtected = false;
 
   if (defenderOldStatus !== defender.status && !!defender.status?.status) {
-    console.log(
-      `${defender.name} is now inflicted with status: ${defender.status.status}.`
-    );
+    verbose &&
+      console.log(
+        `${defender.name} is now inflicted with status: ${defender.status.status}.`
+      );
   }
 
   let outcome: Outcome = checkForOutcome(attacker, defender);
@@ -181,11 +206,11 @@ export const handleTurn = (attacker: Pokemon, defender: Pokemon): Outcome => {
   /**
    * Apply post-turn events.
    */
-  applyPostTurnStatusUpdates(defender);
+  applyPostTurnStatusUpdates(defender, verbose);
   outcome = checkForOutcome(attacker, defender);
   if (outcome.outcome) return outcome;
 
-  applyPostTurnItemUpdates(defender);
+  applyPostTurnItemUpdates(defender, verbose);
   outcome = checkForOutcome(attacker, defender);
   if (outcome.outcome) return outcome;
 

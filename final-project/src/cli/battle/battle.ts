@@ -8,13 +8,14 @@ import {
 
 export const battle = async (
   pokemon1: Pokemon,
-  pokemon2: Pokemon
+  pokemon2: Pokemon,
+  verbose: boolean = false
 ): Promise<Outcome> => {
   let turn = 0;
   let outcome: Outcome = checkForOutcome(pokemon1, pokemon2);
 
-  applyPregameItemUpdates(pokemon1);
-  applyPregameItemUpdates(pokemon2);
+  applyPregameItemUpdates(pokemon1, verbose);
+  applyPregameItemUpdates(pokemon2, verbose);
 
   while (pokemon1.currentHp > 0 || pokemon2.currentHp > 0) {
     /**
@@ -28,33 +29,36 @@ export const battle = async (
     /**
      * Faster Pokemon's turn.
      */
-    console.log("---------------------------------");
-    console.log(
-      `Turn: ${turn}, ${pokemon1.name}: ${pokemon1.currentHp} hp, ${pokemon2.name}: ${pokemon2.currentHp} hp`
-    );
-    outcome = handleTurn(fasterPokemon, slowerPokemon);
+    verbose && console.log("---------------------------------");
+    verbose &&
+      console.log(
+        `Turn: ${turn}, ${pokemon1.name}: ${pokemon1.currentHp} hp, ${pokemon2.name}: ${pokemon2.currentHp} hp`
+      );
+    outcome = handleTurn(fasterPokemon, slowerPokemon, verbose);
     if (outcome.outcome) break;
     turn++;
 
     /**
      * Slower Pokemon's turn.
      */
-    console.log("---------------------------------");
-    console.log(
-      `Turn: ${turn}, ${pokemon1.name}: ${pokemon1.currentHp} hp, ${pokemon2.name}: ${pokemon2.currentHp} hp`
-    );
-    outcome = handleTurn(slowerPokemon, fasterPokemon);
+    verbose && console.log("---------------------------------");
+    verbose &&
+      console.log(
+        `Turn: ${turn}, ${pokemon1.name}: ${pokemon1.currentHp} hp, ${pokemon2.name}: ${pokemon2.currentHp} hp`
+      );
+    outcome = handleTurn(slowerPokemon, fasterPokemon, verbose);
     if (outcome.outcome) break;
     turn++;
   }
 
-  console.log("---------------------------------");
+  verbose && console.log("---------------------------------");
   if (outcome.outcome === "winner") {
-    console.log(
-      `Outcome: ${outcome.winner?.name} won with ${outcome.winner?.currentHp} hp remaining!`
-    );
+    verbose &&
+      console.log(
+        `Outcome: ${outcome.winner?.name} won with ${outcome.winner?.currentHp} hp remaining!`
+      );
   } else {
-    console.log(`Outcome: draw!`);
+    verbose && console.log(`Outcome: draw!`);
   }
 
   return outcome;
