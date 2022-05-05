@@ -1,4 +1,4 @@
-import { Pokemon } from "../pokemon/types";
+import { Pokemon, Move } from "../pokemon/types";
 import {
   applyPregameItemUpdates,
   checkForOutcome,
@@ -9,8 +9,12 @@ import {
 export const battle = async (
   pokemon1: Pokemon,
   pokemon2: Pokemon,
-  verbose: boolean = false
+  options: {
+    verbose?: boolean;
+  } = {}
 ): Promise<Outcome> => {
+  const { verbose } = options;
+
   let turn = 0;
   let outcome: Outcome = checkForOutcome(pokemon1, pokemon2);
 
