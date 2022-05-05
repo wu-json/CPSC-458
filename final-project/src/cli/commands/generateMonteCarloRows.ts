@@ -1,3 +1,4 @@
+import bluebird from "bluebird";
 import { Command } from "commander";
 import cliProgress from "cli-progress";
 import { In } from "typeorm";
@@ -54,34 +55,40 @@ const generateMonteCarloRows = new Command()
 
         const { pokemon1TrackedMoves: gliscorTrackedMoves } = result;
 
-        const monteCarloRows = await MonteCarlo.find({
-          where: {
-            situation: In(gliscorTrackedMoves.map((m) => m.situation)),
-          },
-        });
-        const monteCarloMap = keyBy("situation", monteCarloRows);
         const gliscorWon =
           result.outcome === "winner" && result.winner?.name === "Gliscor";
 
-        gliscorTrackedMoves.forEach((m) => {
-          if (monteCarloMap[m.situation]) {
-            monteCarloMap[m.situation].occurrences++;
-            if (gliscorWon) {
-              monteCarloMap[m.situation].wins++;
-            }
-          } else {
-            monteCarloMap[m.situation] = MonteCarlo.create({
-              situation: m.situation,
-              pokemonName: gliscor.name,
-              move: m.moveName,
-              occurrences: 1,
-              wins: gliscorWon ? 1 : 0,
+        const rowsToSave = await bluebird.mapSeries(
+          gliscorTrackedMoves,
+          async (m) => {
+            const monteCarloRow = await MonteCarlo.findOne({
+              where: {
+                situation: m.situation,
+                move: m.moveName,
+                pokemonName: "Gliscor",
+              },
             });
+
+            if (!monteCarloRow) {
+              return MonteCarlo.create({
+                situation: m.situation,
+                pokemonName: gliscor.name,
+                move: m.moveName,
+                occurrences: 1,
+                wins: gliscorWon ? 1 : 0,
+              });
+            } else {
+              monteCarloRow.occurrences++;
+              if (gliscorWon) {
+                monteCarloRow.wins++;
+              }
+              return monteCarloRow;
+            }
           }
-        });
+        );
 
         // save updated monte carlo rows
-        await MonteCarlo.save(Object.values(monteCarloMap));
+        await MonteCarlo.save(rowsToSave);
 
         battlesSimulated++;
         progressBar.update(battlesSimulated);
