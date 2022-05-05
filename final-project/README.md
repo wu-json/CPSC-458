@@ -4,6 +4,8 @@
 
 Welcome to my final project for Automated Decision Systems at Yale! For this project, I've decided to apply Monte Carlo simulation on Pokemon, a turn-based battle game in which two Pokemon fight until one is knocked out. A Pokemon is knocked out when their HP reaches 0. I grew up playing this game, and thought it might be an interesting application of Monte Carlo simulation since it is surprisingly complex. There are even many competitive ESports tournaments oriented around the game at a very high level of competitive play. Many moves have consequences that can last throughout the duration of the battle, so I thought it would be interesting to see how well simulations could capture the optimal strategies for these cute little monsters.
 
+If you've never played a Pokemon game before, check out [this video](https://www.youtube.com/watch?v=G4u-1EI13y8).
+
 ## Simulation
 
 This project simulates a battle between a Pokemon called Gliscor (left) and Snorlax (right). For the sake of the project, these are the only Pokemon available for the simulation, though the code is written in a way where adding other Pokemon would be pretty easy in the future.
