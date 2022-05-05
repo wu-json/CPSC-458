@@ -139,6 +139,7 @@ export const handleTurn = (attacker: Pokemon, defender: Pokemon): Outcome => {
     console.log(`${attacker.name} used ${attacker[selectedMoveKey!].name}.`);
   }
 
+  attacker[selectedMoveKey!].currentPP--;
   defender.isProtected = false;
 
   if (defenderOldStatus !== defender.status && !!defender.status?.status) {
