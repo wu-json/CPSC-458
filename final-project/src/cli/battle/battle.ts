@@ -61,12 +61,13 @@ export const battle = async (
     /**
      * Faster Pokemon's turn.
      */
-    verbose && console.log("---------------------------------");
+    verbose &&
+      console.log("---------------------------------------------------");
     verbose &&
       console.log(
         `Turn: ${turn}, ${pokemon1.name}: ${pokemon1.currentHp} hp, ${pokemon2.name}: ${pokemon2.currentHp} hp`
       );
-    verbose && console.log("---------------------------------");
+    verbose && console.log("----------");
     outcome = await handleTurn(
       fasterPokemon,
       slowerPokemon,
@@ -79,12 +80,13 @@ export const battle = async (
     /**
      * Slower Pokemon's turn.
      */
-    verbose && console.log("---------------------------------");
+    verbose &&
+      console.log("---------------------------------------------------");
     verbose &&
       console.log(
         `Turn: ${turn}, ${pokemon1.name}: ${pokemon1.currentHp} hp, ${pokemon2.name}: ${pokemon2.currentHp} hp`
       );
-    verbose && console.log("---------------------------------");
+    verbose && console.log("----------");
     outcome = await handleTurn(
       slowerPokemon,
       fasterPokemon,
