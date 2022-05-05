@@ -1,5 +1,6 @@
 import { Command } from "commander";
 import generateMonteCarloRows from "./commands/generateMonteCarloRows";
+import simulateMonteCarloBattles from "./commands/simulateMonteCarloBattles";
 import simulateRandomBattles from "./commands/simulateRandomBattles";
 import viewRandomBattleStats from "./commands/viewRandomBattleStats";
 
@@ -9,6 +10,7 @@ program
   .name("final-project-cli")
   .description("CLI for final project in CPSC 458")
   .addCommand(generateMonteCarloRows)
+  .addCommand(simulateMonteCarloBattles)
   .addCommand(simulateRandomBattles)
   .addCommand(viewRandomBattleStats);
 
