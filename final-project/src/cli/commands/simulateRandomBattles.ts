@@ -17,16 +17,17 @@ const simulateRandomBattles = new Command()
   .action(async (battles: string) => {
     try {
       /**
-       * Connect to Postgres
+       * Connect to Postgres.
        */
       console.log("---------------------------------");
       console.log("Initializing data source...");
-
       await dataSource.initialize();
-
       console.log("Data source initialized.");
       console.log("---------------------------------");
 
+      /**
+       * Simulate battles and track/save results.
+       */
       const battlesToSimulate = battles ? parseInt(battles) : 100;
       console.log(`Simulating ${battlesToSimulate} battles.`);
 
@@ -75,6 +76,9 @@ const simulateRandomBattles = new Command()
       }
       progressBar.stop();
 
+      /**
+       * Print results.
+       */
       console.log("---------------------------------");
       console.log(`Simulated ${battlesSimulated} total battles.`);
       console.log(

@@ -8,18 +8,18 @@ const viewRandomBattleStats = new Command()
   .action(async () => {
     try {
       /**
-       * Connect to Postgres
+       * Connect to Postgres.
        */
       console.log("---------------------------------");
       console.log("Initializing data source...");
-
       await dataSource.initialize();
-
       console.log("Data source initialized.");
       console.log("---------------------------------");
 
+      /**
+       * Query data.
+       */
       console.log("Querying data...");
-
       const [totalRows, totalDraws, totalGliscorWins, totalSnorlaxWins] =
         await Promise.all([
           RandomStrategyOutcome.createQueryBuilder("rso").getCount(),
@@ -34,6 +34,9 @@ const viewRandomBattleStats = new Command()
             .getCount(),
         ]);
 
+      /**
+       * Print query results.
+       */
       console.log("---------------------------------");
       console.log(`${totalRows} total battles.`);
       console.log(
