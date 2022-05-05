@@ -101,50 +101,59 @@ export const applyPostTurnItemUpdates = (pokemon: Pokemon) => {
   }
 };
 
-export const handleTurn = (attacker: Pokemon, defender: Pokemon) => {
+export const handleTurn = (attacker: Pokemon, defender: Pokemon): Outcome => {
   /**
    * Handle sleep and paralyzed status ailments.
    */
   const skipFromParalysisOrSleep = shouldSkipFromParalysisOrSleep(attacker);
+  if (skipFromParalysisOrSleep) return {};
 
   /**
    * Handle move.
    */
-  if (!skipFromParalysisOrSleep) {
-    const availableMoves = ["move1", "move2", "move3", "move4"].filter(
-      (key) => attacker[key].currentPP > 0
+  const availableMoves = ["move1", "move2", "move3", "move4"].filter(
+    (key) => attacker[key].currentPP > 0
+  );
+
+  const selectedMoveKey = sample(availableMoves);
+  const isDamagingMove = !!attacker[selectedMoveKey!].power;
+  const defenderOldStatus = defender.status;
+
+  /**
+   * Handle protect case, otherwise just use the move.
+   */
+  if (isDamagingMove && defender.isProtected) {
+    console.log(
+      `${attacker.name} used ${attacker[selectedMoveKey!].name} but ${
+        defender.name
+      } protected itself.`
     );
-
-    const selectedMoveKey = sample(availableMoves);
-    const isDamagingMove = !!attacker[selectedMoveKey!].power;
-    const defenderOldStatus = defender.status;
-
-    /**
-     * Handle protect case, otherwise just use the move.
-     */
-    if (isDamagingMove && defender.isProtected) {
-      console.log(
-        `${attacker.name} used ${attacker[selectedMoveKey!].name} but ${
-          defender.name
-        } protected itself.`
-      );
-    } else {
-      attacker[selectedMoveKey!].use(defender);
-      console.log(`${attacker.name} used ${attacker[selectedMoveKey!].name}.`);
-    }
-
-    defender.isProtected = false;
-
-    if (defenderOldStatus !== defender.status && !!defender.status?.status) {
-      console.log(
-        `${defender.name} is now inflicted by ${defender.status.status}`
-      );
-    }
-
-    /**
-     * Apply post-turn events.
-     */
-    applyPostTurnStatusUpdates(defender);
-    applyPostTurnItemUpdates(defender);
+  } else {
+    attacker[selectedMoveKey!].use(defender);
+    console.log(`${attacker.name} used ${attacker[selectedMoveKey!].name}.`);
   }
+
+  defender.isProtected = false;
+
+  if (defenderOldStatus !== defender.status && !!defender.status?.status) {
+    console.log(
+      `${defender.name} is now inflicted by ${defender.status.status}`
+    );
+  }
+
+  let outcome: Outcome = checkForOutcome(attacker, defender);
+  if (outcome.outcome) return outcome;
+
+  /**
+   * Apply post-turn events.
+   */
+  applyPostTurnStatusUpdates(defender);
+  outcome = checkForOutcome(attacker, defender);
+  if (outcome.outcome) return outcome;
+
+  applyPostTurnItemUpdates(defender);
+  outcome = checkForOutcome(attacker, defender);
+  if (outcome.outcome) return outcome;
+
+  return {};
 };

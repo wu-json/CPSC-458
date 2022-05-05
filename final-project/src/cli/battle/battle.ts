@@ -21,23 +21,19 @@ export const battle = async (
      * Faster Pokemon's turn.
      */
     console.log(`Turn: ${turn}`);
-    handleTurn(fasterPokemon, slowerPokemon);
-    turn++;
-
     printHp(pokemon1, pokemon2);
-    outcome = checkForOutcome(fasterPokemon, slowerPokemon);
+    outcome = handleTurn(fasterPokemon, slowerPokemon);
     if (outcome) break;
+    turn++;
 
     /**
      * Slower Pokemon's turn.
      */
     console.log(`Turn: ${turn}`);
-    handleTurn(slowerPokemon, fasterPokemon);
-    turn++;
-
     printHp(pokemon1, pokemon2);
-    outcome = checkForOutcome(slowerPokemon, fasterPokemon);
+    outcome = handleTurn(slowerPokemon, fasterPokemon);
     if (outcome) break;
+    turn++;
   }
 
   return outcome;
