@@ -1,4 +1,5 @@
 import { Command } from "commander";
+import cliProgress from "cli-progress";
 
 import { battle } from "../battle/battle";
 import dataSource from "../connections/typeorm";
@@ -34,7 +35,14 @@ const simulate = new Command()
       let snorlaxWins = 0;
       let draws = 0;
 
-      while (battlesSimulated < 100) {
+      const progressBar = new cliProgress.SingleBar(
+        {},
+        cliProgress.Presets.shades_classic
+      );
+
+      progressBar.start(battlesToSimulate, 0);
+
+      while (battlesSimulated < battlesToSimulate) {
         /**
          * Gliscor is too strong with the toxic orb so we don't give it to him.
          * We give Snorlax leftovers as a handicap.
@@ -63,7 +71,9 @@ const simulate = new Command()
         }).save();
 
         battlesSimulated++;
+        progressBar.update(battlesSimulated);
       }
+      progressBar.stop();
 
       console.log("---------------------------------");
       console.log(`Simulated ${battlesSimulated} total battles.`);
