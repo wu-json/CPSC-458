@@ -1,9 +1,10 @@
 import {
+  applyPostTurnItemUpdates,
   applyPostTurnStatusUpdates,
   checkForOutcome,
   hasAvailableMoves,
 } from "../../src/cli/battle/utils";
-import { Status } from "../../src/cli/pokemon/types";
+import { Item, Status } from "../../src/cli/pokemon/types";
 import { Gliscor } from "../../src/cli/pokemon/Gliscor";
 import { Snorlax } from "../../src/cli/pokemon/Snorlax";
 
@@ -80,6 +81,15 @@ describe("Utils", () => {
       applyPostTurnStatusUpdates(gliscor);
       expect(gliscor.currentHp).toEqual(41);
       expect(gliscor.status.turnsPassedSinceInflicted).toEqual(3);
+    });
+  });
+
+  describe("applyPostTurnItemUpdates", () => {
+    it("should make leftovers restore some hp", () => {
+      snorlax.item = Item.Leftovers;
+      snorlax.currentHp = 20;
+      applyPostTurnItemUpdates(snorlax);
+      expect(snorlax.currentHp).toEqual(30);
     });
   });
 });
