@@ -1,4 +1,5 @@
 import {
+  applyPregameItemUpdates,
   applyPostTurnItemUpdates,
   applyPostTurnStatusUpdates,
   checkForOutcome,
@@ -42,6 +43,17 @@ describe("Utils", () => {
       expect(checkForOutcome(gliscor, snorlax)).toEqual({
         outcome: "winner",
         winner: snorlax,
+      });
+    });
+  });
+
+  describe("applyPregameItemUpdates", () => {
+    it("should inflict poison if pokemon is holding toxic orb", () => {
+      gliscor.item = Item.ToxicOrb;
+      applyPregameItemUpdates(gliscor);
+      expect(gliscor.status).toEqual({
+        status: Status.Poisoned,
+        turnsPassedSinceInflicted: 0,
       });
     });
   });

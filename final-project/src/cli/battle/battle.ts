@@ -1,5 +1,11 @@
 import { Pokemon } from "../pokemon/types";
-import { checkForOutcome, handleTurn, Outcome, printHp } from "./utils";
+import {
+  applyPregameItemUpdates,
+  checkForOutcome,
+  handleTurn,
+  Outcome,
+  printHp,
+} from "./utils";
 
 export const battle = async (
   pokemon1: Pokemon,
@@ -7,6 +13,9 @@ export const battle = async (
 ): Promise<Outcome> => {
   let turn = 0;
   let outcome: Outcome = checkForOutcome(pokemon1, pokemon2);
+
+  applyPregameItemUpdates(pokemon1);
+  applyPregameItemUpdates(pokemon2);
 
   while (pokemon1.currentHp > 0 || pokemon2.currentHp > 0) {
     /**

@@ -60,6 +60,20 @@ export const checkForOutcome = (
   return {};
 };
 
+export const applyPregameItemUpdates = (pokemon: Pokemon) => {
+  if (!pokemon.item) {
+    return;
+  }
+
+  if (pokemon.item === Item.ToxicOrb) {
+    pokemon.status = {
+      status: Status.Poisoned,
+      turnsPassedSinceInflicted: 0,
+    };
+    console.log(`${pokemon.name} was poisoned by the Toxic Orb.`);
+  }
+};
+
 export const applyPostTurnStatusUpdates = (pokemon: Pokemon) => {
   if (!pokemon.status?.status) {
     return;
