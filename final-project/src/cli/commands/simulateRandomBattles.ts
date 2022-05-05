@@ -8,7 +8,7 @@ import { Gliscor } from "../pokemon/Gliscor";
 import { Snorlax } from "../pokemon/Snorlax";
 import { RandomStrategyOutcome } from "../entity/RandomStrategyOutcome";
 
-const simulate = new Command()
+const simulateRandomBattles = new Command()
   .command("sim-random-battles")
   .description(
     "Simulate random strategy battles and save their results into Postgres"
@@ -89,4 +89,4 @@ const simulate = new Command()
     }
   });
 
-export default simulate;
+export default simulateRandomBattles;

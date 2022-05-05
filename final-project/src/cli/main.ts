@@ -1,11 +1,13 @@
 import { Command } from "commander";
-import simulate from "./commands/simulate";
+import simulateRandomBattles from "./commands/simulateRandomBattles";
+import viewRandomBattleStats from "./commands/viewRandomBattleStats";
 
 const program = new Command();
 
 program
   .name("final-project-cli")
   .description("CLI for final project in CPSC 458")
-  .addCommand(simulate);
+  .addCommand(simulateRandomBattles)
+  .addCommand(viewRandomBattleStats);
 
 program.parse();
