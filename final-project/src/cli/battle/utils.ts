@@ -24,6 +24,12 @@ export const shouldSkipFromParalysisOrSleep = (pokemon: Pokemon): boolean => {
   }
 };
 
+export const printHp = (pokemon1: Pokemon, pokemon2: Pokemon) => {
+  console.log(
+    `${pokemon1.name}: ${pokemon1.currentHp} HP, ${pokemon2.name}: ${pokemon2.currentHp}`
+  );
+};
+
 const hasAvailableMoves = (pokemon: Pokemon) =>
   ["move1", "move2", "move3", "move4"].filter(
     (key) => pokemon[key].currentPP > 0
