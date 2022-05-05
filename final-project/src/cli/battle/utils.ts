@@ -27,7 +27,7 @@ export const shouldSkipFromParalysisOrSleep = (pokemon: Pokemon): boolean => {
 
 export const printHp = (pokemon1: Pokemon, pokemon2: Pokemon) => {
   console.log(
-    `${pokemon1.name}: ${pokemon1.currentHp} HP, ${pokemon2.name}: ${pokemon2.currentHp}`
+    `${pokemon1.name}: ${pokemon1.currentHp} hp, ${pokemon2.name}: ${pokemon2.currentHp} hp`
   );
 };
 
