@@ -1,5 +1,5 @@
 import { sample } from "lodash/fp";
-import { Pokemon, Status } from "../pokemon/types";
+import { Ability, Pokemon, Status } from "../pokemon/types";
 
 export const shouldSkipFromParalysisOrSleep = (pokemon: Pokemon): boolean => {
   if (pokemon.status?.status === Status.Paralyzed) {
@@ -60,6 +60,32 @@ export const checkForOutcome = (
   return {};
 };
 
+export const applyPostTurnStatusUpdates = (pokemon: Pokemon) => {
+  if (!pokemon.status?.status) {
+    return;
+  }
+
+  const isPoisoned = pokemon.status.status === Status.Poisoned;
+  const hasPoisonHeal = pokemon.ability === Ability.PoisonHeal;
+
+  if (isPoisoned && hasPoisonHeal) {
+    // heal 12.5% of hp
+    const healAmount = Math.round(pokemon.totalHp * 0.125);
+    pokemon.currentHp = Math.min(
+      pokemon.totalHp,
+      pokemon.currentHp + healAmount
+    );
+    console.log(`${pokemon.name} healed some hp from poison heal.`);
+  } else if (isPoisoned) {
+    const multiplier = pokemon.status.turnsPassedSinceInflicted + 1;
+    const damageAmount = Math.round(pokemon.totalHp / 16) * multiplier;
+    pokemon.currentHp = Math.max(0, pokemon.currentHp - damageAmount);
+    console.log(`${pokemon.name} lost some hp from poison.`);
+  }
+
+  pokemon.status.turnsPassedSinceInflicted++;
+};
+
 export const handleTurn = (attacker: Pokemon, defender: Pokemon) => {
   /**
    * Handle sleep and paralyzed status ailments.
@@ -79,7 +105,7 @@ export const handleTurn = (attacker: Pokemon, defender: Pokemon) => {
     const defenderOldStatus = defender.status;
 
     /**
-     * Handle protect case.
+     * Handle protect case, otherwise just use the move.
      */
     if (isDamagingMove && defender.isProtected) {
       console.log(
@@ -99,5 +125,8 @@ export const handleTurn = (attacker: Pokemon, defender: Pokemon) => {
         `${defender.name} is now inflicted by ${defender.status.status}`
       );
     }
+
+    applyPostTurnStatusUpdates(attacker);
+    applyPostTurnStatusUpdates(defender);
   }
 };
