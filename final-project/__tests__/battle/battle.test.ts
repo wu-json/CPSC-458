@@ -14,5 +14,7 @@ describe("Battle", () => {
   it("should be able to simulate a battle without crashing", async () => {
     const outcome = await battle(gliscor, snorlax);
     expect(outcome.outcome).toBeTruthy();
+    expect(outcome.pokemon1TrackedMoves.length).toBeGreaterThan(0);
+    expect(outcome.pokemon2TrackedMoves.length).toBeGreaterThan(0);
   });
 });
