@@ -32,7 +32,7 @@ export const battle = async (
     console.log(`Turn: ${turn}`);
     printHp(pokemon1, pokemon2);
     outcome = handleTurn(fasterPokemon, slowerPokemon);
-    if (outcome) break;
+    if (outcome.outcome) break;
     turn++;
 
     /**
@@ -41,7 +41,7 @@ export const battle = async (
     console.log(`Turn: ${turn}`);
     printHp(pokemon1, pokemon2);
     outcome = handleTurn(slowerPokemon, fasterPokemon);
-    if (outcome) break;
+    if (outcome.outcome) break;
     turn++;
   }
 
