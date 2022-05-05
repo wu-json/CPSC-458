@@ -345,3 +345,187 @@ Finished adding rows to Monte Carlo table.
 ```
 
 This command takes a lot of time because of the queries and updates involved with populating the table rows. I ran the above overnight and it generated around 12,000 total rows. If you don't want to wait that long but still want to see the data, I have a data dump with my Postgres data you can import. The instructions for this are at the very end of this ReadMe.
+
+## Seeing the Monte Carlo Strategy In Action
+
+Now that the Monte Carlo table has been populated, we can run a battle simulation in which Gliscor uses the decision table to pick moves. The algorithm is as follows:
+
+1. Given the current situation, look up the Monte Carlo rows in Postgres.
+
+2. Calculate the win rate of each decision made in the situation and choose the highest one that is available (the move hasn't run out of PP and can still be used).
+
+3. Repeat!
+
+To do the above, run this command:
+
+```bash
+yarn cli sim-verbose-monte-carlo-battle
+
+# output
+---------------------------------
+Initializing data source...
+Data source initialized.
+---------------------------------
+Note that monte carlo strategy only works for Gliscor. When useMonteCarloStrategy is set to true, Snorlax will still use a random strategy.
+---------------------------------------------------
+Turn: 0, Gliscor: 75 hp, Snorlax: 160 hp
+Monte Carlo: Best move for Gliscor here is Toxic, with win rate of 50.7696751477846%
+Gliscor used Toxic.
+Snorlax is now inflicted with status: Poisoned.
+Snorlax lost 10 hp from poison.
+Snorlax healed 10 hp from leftovers.
+---------------------------------------------------
+Turn: 1, Gliscor: 75 hp, Snorlax: 160 hp
+Snorlax used Rest.
+---------------------------------------------------
+Turn: 2, Gliscor: 75 hp, Snorlax: 160 hp
+Monte Carlo: Best move for Gliscor here is Protect, with win rate of 42.62851764705882%
+Gliscor used Protect.
+Snorlax healed 0 hp from leftovers.
+---------------------------------------------------
+Turn: 3, Gliscor: 75 hp, Snorlax: 160 hp
+Snorlax is fast asleep.
+---------------------------------------------------
+Turn: 4, Gliscor: 75 hp, Snorlax: 160 hp
+Monte Carlo: Best move for Gliscor here is Protect, with win rate of 42.62851764705882%
+Gliscor used Protect.
+Snorlax healed 0 hp from leftovers.
+---------------------------------------------------
+Turn: 5, Gliscor: 75 hp, Snorlax: 160 hp
+Snorlax is fast asleep.
+---------------------------------------------------
+Turn: 6, Gliscor: 75 hp, Snorlax: 160 hp
+Monte Carlo: Best move for Gliscor here is Protect, with win rate of 42.62851764705882%
+Gliscor used Protect.
+Snorlax healed 0 hp from leftovers.
+---------------------------------------------------
+Turn: 7, Gliscor: 75 hp, Snorlax: 160 hp
+Snorlax woke up from sleep!
+Snorlax used Crunch but Gliscor protected itself.
+---------------------------------------------------
+Turn: 8, Gliscor: 75 hp, Snorlax: 160 hp
+Monte Carlo: Best move for Gliscor here is Toxic, with win rate of 50.7696751477846%
+Gliscor used Toxic.
+Snorlax is now inflicted with status: Poisoned.
+Snorlax lost 10 hp from poison.
+Snorlax healed 10 hp from leftovers.
+---------------------------------------------------
+Turn: 9, Gliscor: 75 hp, Snorlax: 160 hp
+Snorlax used Body Slam and dealt 13 hp of damage.
+---------------------------------------------------
+Turn: 10, Gliscor: 62 hp, Snorlax: 160 hp
+Monte Carlo: Best move for Gliscor here is Roost, with win rate of 56.6248574686431%
+Gliscor used Roost and healed 13 hp.
+Snorlax lost 20 hp from poison.
+Snorlax healed 10 hp from leftovers.
+---------------------------------------------------
+Turn: 11, Gliscor: 75 hp, Snorlax: 150 hp
+Snorlax used Fire Punch and dealt 18 hp of damage.
+---------------------------------------------------
+Turn: 12, Gliscor: 57 hp, Snorlax: 150 hp
+Monte Carlo: Best move for Gliscor here is Roost, with win rate of 62.774836220048456%
+Gliscor used Roost and healed 18 hp.
+Snorlax lost 30 hp from poison.
+Snorlax healed 10 hp from leftovers.
+---------------------------------------------------
+Turn: 13, Gliscor: 75 hp, Snorlax: 130 hp
+Snorlax used Fire Punch and dealt 18 hp of damage.
+---------------------------------------------------
+Turn: 14, Gliscor: 57 hp, Snorlax: 130 hp
+Monte Carlo: Best move for Gliscor here is Protect, with win rate of 72.15644061715106%
+Gliscor used Protect.
+Snorlax lost 40 hp from poison.
+Snorlax healed 10 hp from leftovers.
+---------------------------------------------------
+Turn: 15, Gliscor: 57 hp, Snorlax: 100 hp
+Snorlax used Rest and healed 60 hp.
+---------------------------------------------------
+Turn: 16, Gliscor: 57 hp, Snorlax: 160 hp
+Monte Carlo: Best move for Gliscor here is Protect, with win rate of 39.22008154746951%
+Gliscor used Protect.
+Snorlax healed 0 hp from leftovers.
+---------------------------------------------------
+Turn: 17, Gliscor: 57 hp, Snorlax: 160 hp
+Snorlax woke up from sleep!
+Snorlax used Body Slam but Gliscor protected itself.
+---------------------------------------------------
+Turn: 18, Gliscor: 57 hp, Snorlax: 160 hp
+Monte Carlo: Best move for Gliscor here is Toxic, with win rate of 42.73748320383245%
+Gliscor used Toxic.
+Snorlax is now inflicted with status: Poisoned.
+Snorlax lost 10 hp from poison.
+Snorlax healed 10 hp from leftovers.
+---------------------------------------------------
+Turn: 19, Gliscor: 57 hp, Snorlax: 160 hp
+Snorlax used Fire Punch and dealt 18 hp of damage.
+---------------------------------------------------
+Turn: 20, Gliscor: 39 hp, Snorlax: 160 hp
+Monte Carlo: Best move for Gliscor here is Roost, with win rate of 56.24335247819613%
+Gliscor used Roost and healed 36 hp.
+Snorlax lost 20 hp from poison.
+Snorlax healed 10 hp from leftovers.
+---------------------------------------------------
+Turn: 21, Gliscor: 75 hp, Snorlax: 150 hp
+Snorlax used Crunch and dealt 19 hp of damage.
+---------------------------------------------------
+Turn: 22, Gliscor: 56 hp, Snorlax: 150 hp
+Monte Carlo: Best move for Gliscor here is Protect, with win rate of 62.80400572246065%
+Gliscor used Protect.
+Snorlax lost 30 hp from poison.
+Snorlax healed 10 hp from leftovers.
+---------------------------------------------------
+Turn: 23, Gliscor: 56 hp, Snorlax: 130 hp
+Snorlax used Fire Punch but Gliscor protected itself.
+---------------------------------------------------
+Turn: 24, Gliscor: 56 hp, Snorlax: 130 hp
+Monte Carlo: Best move for Gliscor here is Protect, with win rate of 71.79306704205524%
+Gliscor used Protect.
+Snorlax lost 40 hp from poison.
+Snorlax healed 10 hp from leftovers.
+---------------------------------------------------
+Turn: 25, Gliscor: 56 hp, Snorlax: 100 hp
+Snorlax used Body Slam but Gliscor protected itself.
+---------------------------------------------------
+Turn: 26, Gliscor: 56 hp, Snorlax: 100 hp
+Monte Carlo: Best move for Gliscor here is Protect, with win rate of 84.27793788024336%
+Gliscor used Protect.
+Snorlax lost 50 hp from poison.
+Snorlax healed 10 hp from leftovers.
+---------------------------------------------------
+Turn: 27, Gliscor: 56 hp, Snorlax: 60 hp
+Snorlax used Body Slam but Gliscor protected itself.
+---------------------------------------------------
+Turn: 28, Gliscor: 56 hp, Snorlax: 60 hp
+Monte Carlo: Best move for Gliscor here is Earthquake, with win rate of 100%
+Gliscor used Earthquake and dealt 12 hp of damage.
+Snorlax lost 48 hp from poison.
+---------------------------------
+Outcome: Gliscor won with 56 hp remaining!
+✨  Done in 7.23s.
+```
+
+The above output is extremely cool because we can already see Gliscor using the optimal strategy described previously. It prioritizes inflicting poison on Snorlax, and proceeds to stall and heal while occasionally inflicting direct damage with Earthquake when it can. I added a log to each turn that also shows the win-rate of the move selected, and we can see that the correct rows are being chosen.
+
+For us to really understand how effective the new strategy is, we can run a ton of simulations with the new strategy and get the overall statistics:
+
+```bash
+yarn cli sim-monte-carlo-battles 125000
+
+# output
+...bash
+---------------------------------
+125000 total battles.
+Gliscor won 122079 times (97.66319999999999% win rate).
+Snorlax won 1125 times (0.8999999999999999% win rate).
+Ended in a draw 1796 times (1.4368% draw rate).
+---------------------------------
+✨  Done in 4.89s.
+```
+
+Note that the command above takes much longer than the random strategy because of all of the reads from the Postgres database for the optimal moves. While an in-memory table would have made this faster, keeping the table in a separate database is a lot more memory efficient and scalable if multiple Pokemon are added in the future. The stats can be viewed again by running:
+
+```bash
+yarn cli view-monte-carlo-battle-stats
+```
+
+More importantly, we see that Gliscor's win rate with the Monte Carlo strategy is around `97.66%`! This is way better than the previous `42.397%` it was getting with the random strategy. Thus, we can conclude that our Monte Carlo table design works quite well.
