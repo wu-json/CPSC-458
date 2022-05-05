@@ -1,4 +1,4 @@
-import { Ability, CurrentStatus, Item, Move, Pokemon } from "./types";
+import { Ability, CurrentStatus, Item, Move, Pokemon, Status } from "./types";
 import { calculatePhysicalAttackDamage } from "./utils";
 
 export class Snorlax implements Pokemon {
@@ -46,8 +46,12 @@ export class Snorlax implements Pokemon {
       name: "Rest",
       currentPP: 10,
       totalPP: 10,
-      use: (pokemon: Pokemon) => {
-        return this;
+      use: (_pokemon: Pokemon) => {
+        this.currentHp = this.totalHp;
+        this.status = {
+          status: Status.Sleep,
+          turnsPassedSinceInflicted: 0,
+        };
       },
     };
 
