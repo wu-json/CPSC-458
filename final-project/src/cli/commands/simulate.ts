@@ -7,8 +7,8 @@ import { Gliscor } from "../pokemon/Gliscor";
 import { Snorlax } from "../pokemon/Snorlax";
 
 const simulate = new Command()
-  .command("simulate")
-  .description("Simulate battles")
+  .command("sim-random-battles")
+  .description("Simulate random battles")
   .argument("[battles]", "How many simulated battles to run")
   .action(async (battles: string) => {
     try {
@@ -26,13 +26,8 @@ const simulate = new Command()
       const battlesToSimulate = battles ? parseInt(battles) : 100;
       console.log(`Simulating ${battlesToSimulate} battles.`);
 
-      const gliscor = new Gliscor(Item.ToxicOrb);
-      const snorlax = new Snorlax(Item.Leftovers);
+ 
 
-      const result = await battle(gliscor, snorlax);
-
-      console.log("RESULT:::");
-      console.log(result);
 
       process.exit(0);
     } catch (error) {

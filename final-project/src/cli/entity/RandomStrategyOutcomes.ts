@@ -41,6 +41,9 @@ export class RandomStrategyOutcomes extends BaseEntity {
    * Outcome
    */
   @Column()
+  outcome: string;
+
+  @Column({ nullable: true })
   winner: string;
 
   @CreateDateColumn()
