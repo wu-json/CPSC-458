@@ -1,5 +1,4 @@
 export enum Status {
-  Paralyzed = "Paralyzed",
   Poisoned = "Poisoned",
   Sleep = "Sleep",
 }
