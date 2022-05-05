@@ -12,13 +12,13 @@ import {
  * Represents MonteCarlo table constructed by running a ton of
  * random simulated games.
  */
+@Index(["situation", "pokemonName", "move"], { unique: true })
 @Entity()
 export class MonteCarlo extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Index()
-  @Column({ unique: true })
+  @Column()
   situation: string;
 
   @Column()

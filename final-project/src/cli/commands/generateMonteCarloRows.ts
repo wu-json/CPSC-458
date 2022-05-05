@@ -1,4 +1,3 @@
-import bluebird from "bluebird";
 import { Command } from "commander";
 import cliProgress from "cli-progress";
 import { In } from "typeorm";
