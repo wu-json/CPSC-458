@@ -8,6 +8,10 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 
+/**
+ * Represents MonteCarlo table constructed by running a ton of
+ * random simulated games.
+ */
 @Entity()
 export class MonteCarlo extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
