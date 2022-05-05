@@ -65,6 +65,7 @@ export const applyPostTurnStatusUpdates = (pokemon: Pokemon) => {
     return;
   }
 
+  const startingHp = pokemon.currentHp;
   const isPoisoned = pokemon.status.status === Status.Poisoned;
   const hasPoisonHeal = pokemon.ability === Ability.PoisonHeal;
 
@@ -75,12 +76,14 @@ export const applyPostTurnStatusUpdates = (pokemon: Pokemon) => {
       pokemon.totalHp,
       pokemon.currentHp + healAmount
     );
-    console.log(`${pokemon.name} healed some hp from poison heal.`);
+    const hpDiff = pokemon.currentHp - startingHp;
+    console.log(`${pokemon.name} healed ${hpDiff} hp from poison heal.`);
   } else if (isPoisoned) {
     const multiplier = pokemon.status.turnsPassedSinceInflicted + 1;
     const damageAmount = Math.round(pokemon.totalHp / 16) * multiplier;
     pokemon.currentHp = Math.max(0, pokemon.currentHp - damageAmount);
-    console.log(`${pokemon.name} lost some hp from poison.`);
+    const hpDiff = startingHp - pokemon.currentHp;
+    console.log(`${pokemon.name} lost ${hpDiff} hp from poison.`);
   }
 
   pokemon.status.turnsPassedSinceInflicted++;
@@ -91,13 +94,16 @@ export const applyPostTurnItemUpdates = (pokemon: Pokemon) => {
     return;
   }
 
+  const startingHp = pokemon.currentHp;
+
   if (pokemon.item === Item.Leftovers) {
     const healAmount = Math.round(pokemon.totalHp / 16);
     pokemon.currentHp = Math.min(
       pokemon.totalHp,
       pokemon.currentHp + healAmount
     );
-    console.log(`${pokemon.name} healed some hp from leftovers.`);
+    const hpDiff = pokemon.currentHp - startingHp;
+    console.log(`${pokemon.name} healed ${hpDiff} hp from leftovers.`);
   }
 };
 
