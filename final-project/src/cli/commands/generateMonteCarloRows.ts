@@ -58,37 +58,31 @@ const generateMonteCarloRows = new Command()
         const gliscorWon =
           result.outcome === "winner" && result.winner?.name === "Gliscor";
 
-        const rowsToSave = await bluebird.mapSeries(
-          gliscorTrackedMoves,
-          async (m) => {
-            const monteCarloRow = await MonteCarlo.findOne({
-              where: {
-                situation: m.situation,
-                move: m.moveName,
-                pokemonName: "Gliscor",
-              },
-            });
+        await bluebird.mapSeries(gliscorTrackedMoves, async (m) => {
+          const monteCarloRow = await MonteCarlo.findOne({
+            where: {
+              situation: m.situation,
+              move: m.moveName,
+              pokemonName: "Gliscor",
+            },
+          });
 
-            if (!monteCarloRow) {
-              return MonteCarlo.create({
-                situation: m.situation,
-                pokemonName: gliscor.name,
-                move: m.moveName,
-                occurrences: 1,
-                wins: gliscorWon ? 1 : 0,
-              });
-            } else {
-              monteCarloRow.occurrences++;
-              if (gliscorWon) {
-                monteCarloRow.wins++;
-              }
-              return monteCarloRow;
+          if (!monteCarloRow) {
+            await MonteCarlo.create({
+              situation: m.situation,
+              pokemonName: gliscor.name,
+              move: m.moveName,
+              occurrences: 1,
+              wins: gliscorWon ? 1 : 0,
+            }).save();
+          } else {
+            monteCarloRow.occurrences++;
+            if (gliscorWon) {
+              monteCarloRow.wins++;
             }
+            await monteCarloRow.save();
           }
-        );
-
-        // save updated monte carlo rows
-        await MonteCarlo.save(rowsToSave);
+        });
 
         battlesSimulated++;
         progressBar.update(battlesSimulated);
