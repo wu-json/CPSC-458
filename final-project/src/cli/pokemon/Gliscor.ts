@@ -1,4 +1,4 @@
-import { Ability, CurrentStatus, Item, Move, Pokemon } from "./types";
+import { Ability, CurrentStatus, Item, Move, Pokemon, Status } from "./types";
 import { calculateSpecialAttackDamage } from "./utils";
 
 export class Gliscor implements Pokemon {
@@ -79,7 +79,12 @@ export class Gliscor implements Pokemon {
       currentPP: 12,
       totalPP: 12,
       use: (pokemon: Pokemon) => {
-        return this;
+        if (!pokemon.status) {
+          pokemon.status = {
+            status: Status.Poisoned,
+            turnsPassedSinceInflicted: 0,
+          };
+        }
       },
     };
   }
