@@ -529,3 +529,26 @@ yarn cli view-monte-carlo-battle-stats
 ```
 
 More importantly, we see that Gliscor's win rate with the Monte Carlo strategy is around `97.66%`! This is way better than the previous `42.397%` it was getting with the random strategy. Thus, we can conclude that our Monte Carlo table design works quite well.
+
+## Looking at the Monte Carlo Table
+
+The Monte Carlo table itself seems to show that the optimal Gliscor strategy (inflicting poison ASAP and stalling) seems to result in a higher win-rate.
+
+```bash
+id situation PokemonName Move Occurrences Wins CreatedAt UpdatedAt
+72a295b4-df5f-444f-8715-ed56feb2c75b	75:160:undefined:undefined	Gliscor	Toxic	223974	113633	2022-05-05 06:54:49.904243	2022-05-05 20:27:59.128406
+```
+
+Note that for the starting situation, the highest win-rate is associated with the move toxic (early poison infliction). In addition, Roost seems to be the preferred move for situations where Gliscor has low HP, as it is a healing move.
+
+## Conclusions
+
+Overall, it seems that the Monte Carlo decision table strategy works very well for this matchup in Gliscor's favor. In the future, it would also be interesting to construct a table for Snorlax as well, and have both Pokemon use their Monte Carlo strategies in the same battle.
+
+It is worth noting that my simulation of Pokemon, while still complex, is not nearly as complex as the actual game. The actual game has even more statistical factors like critical hits, accuracy, and other damage multipliers like types and such. Implementing these extra factors could be accomplished through future updates to the project.
+
+## Using the Data I Worked With
+
+As mentioned in the writeup, many of the steps I ran for this project take a really long time. I had a few simulations take so long I needed to run them overnight. If you want to experiment with the project or are grading this, you probably don't want to spend all that time constructing the Monte Carlo table or simulating games yourself.
+
+I have stored a Postgres SQL dump of my data in `src/data/pokemon-dump.sql`. You can use a DB visualizer (e.g TablePlus, DataGrip, etc.) or the postgres CLI to import this dump into your database so you have all of the data I generated. Have fun!
