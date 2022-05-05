@@ -191,6 +191,114 @@ To run real commands on the CLI, you will need to run the following commands fir
 # install packages
 yarn
 
-# start local postgres (you need docker-compose install for this)
+# start local postgres (leave this running)
 docker-compose up
 ```
+
+Once you have the above set up, you are ready to start using the CLI!
+
+## Observing a Simulation With Random Strategy
+
+Before we start doing any of the Monte Carlo stuff, it helps to see what a battle simulation looks like in action. To run a simple battle between Snorlax and Gliscor, run this command:
+
+```bash
+yarn cli sim-verbose-random-battle
+
+# output
+---------------------------------------------------
+Turn: 0, Gliscor: 75 hp, Snorlax: 160 hp
+Gliscor used Protect.
+Snorlax healed 0 hp from leftovers.
+---------------------------------------------------
+Turn: 1, Gliscor: 75 hp, Snorlax: 160 hp
+Snorlax used Body Slam but Gliscor protected itself.
+---------------------------------------------------
+Turn: 2, Gliscor: 75 hp, Snorlax: 160 hp
+Gliscor used Protect.
+Snorlax healed 0 hp from leftovers.
+---------------------------------------------------
+Turn: 3, Gliscor: 75 hp, Snorlax: 160 hp
+Snorlax used Crunch but Gliscor protected itself.
+---------------------------------------------------
+Turn: 4, Gliscor: 75 hp, Snorlax: 160 hp
+Gliscor used Toxic.
+Snorlax is now inflicted with status: Poisoned.
+Snorlax lost 10 hp from poison.
+Snorlax healed 10 hp from leftovers.
+---------------------------------------------------
+Turn: 5, Gliscor: 75 hp, Snorlax: 160 hp
+Snorlax used Crunch and dealt 19 hp of damage.
+---------------------------------------------------
+Turn: 6, Gliscor: 56 hp, Snorlax: 160 hp
+Gliscor used Earthquake and dealt 12 hp of damage.
+Snorlax lost 20 hp from poison.
+Snorlax healed 10 hp from leftovers.
+---------------------------------------------------
+Turn: 7, Gliscor: 56 hp, Snorlax: 138 hp
+Snorlax used Fire Punch and dealt 18 hp of damage.
+---------------------------------------------------
+Turn: 8, Gliscor: 38 hp, Snorlax: 138 hp
+Gliscor used Protect.
+Snorlax lost 30 hp from poison.
+Snorlax healed 10 hp from leftovers.
+---------------------------------------------------
+Turn: 9, Gliscor: 38 hp, Snorlax: 118 hp
+Snorlax used Fire Punch but Gliscor protected itself.
+---------------------------------------------------
+Turn: 10, Gliscor: 38 hp, Snorlax: 118 hp
+Gliscor used Toxic.
+Snorlax lost 40 hp from poison.
+Snorlax healed 10 hp from leftovers.
+---------------------------------------------------
+Turn: 11, Gliscor: 38 hp, Snorlax: 88 hp
+Snorlax used Fire Punch and dealt 18 hp of damage.
+---------------------------------------------------
+Turn: 12, Gliscor: 20 hp, Snorlax: 88 hp
+Gliscor used Protect.
+Snorlax lost 50 hp from poison.
+Snorlax healed 10 hp from leftovers.
+---------------------------------------------------
+Turn: 13, Gliscor: 20 hp, Snorlax: 48 hp
+Snorlax used Crunch but Gliscor protected itself.
+---------------------------------------------------
+Turn: 14, Gliscor: 20 hp, Snorlax: 48 hp
+Gliscor used Earthquake and dealt 12 hp of damage.
+Snorlax lost 36 hp from poison.
+---------------------------------
+Outcome: Gliscor won with 20 hp remaining!
+✨  Done in 5.02s.
+```
+
+Notice that you get a full transcript of the turn breakdowns and what moves were used. Each turn also shows the current HP of each Pokemon, which can give you a sense of how the battle is progressing at a given turn. This command is nice since it also allows us to verify that the simulation is working correctly. I used this command several times while debugging the initial simulation code.
+
+## Gliscor vs. Snorlax Statistics With Random Strategy
+
+Before we start on the Monte Carlo stuff, we also want to see the outcome statistics in battles between Gliscor and Snorlax when both Pokemon are using a random strategy. This is because we need some base statistics to compare how effective the Monte Carlo strategy will be for Gliscor later. To accomplish this, run the following command:
+
+```bash
+yarn cli sim-random-battles 100000
+
+# output
+...
+---------------------------------
+100000 total battles.
+Gliscor won 42397 times (42.397% win rate).
+Snorlax won 52577 times (52.577% win rate).
+Ended in a draw 5026 times (5.026% draw rate).
+---------------------------------
+```
+
+The command above runs 100,000 simulated games where both Pokemon are using random strategies for picking moves, and then saves each outcome in Postgres in the `random_strategy_outcome` table. Afterwards, it aggregates the outcomes to calculate the stats above. You can view these stats again by running:
+
+```bash
+yarn cli view-random-battle-stats
+```
+
+Notice that Gliscor only seems to have a win-rate of around `42.397%` while using a random strategy. This is probably because as we mentioned in the beginning, Gliscor has a very specific strategy necessary in order to be effective:
+
+1. Poison the enemy Pokemon as soon as possible.
+2. Stall and inflict damage.
+
+In a random strategy, Gliscor probably won't follow the steps above. Instead, it will probably make ineffective decisions (e.g not poisoning the enemy Pokemon as early as possible) that will result in it losing most of the time. Snorlax on the other hand, has a much less predominant strategy, as most of his moves deal constant damage. Thus, it makes sense why Snorlax would perform better even by randomly selecting moves.
+
+The question here becomes the following: will a Monte Carlo decision table eventually learn the optimal Gliscor strategy? Let's try it out to find out.
