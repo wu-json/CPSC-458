@@ -25,15 +25,14 @@ export interface Move {
   totalPP: number;
   power?: number;
   /**
-   * use takes a target pokemon, applies the
-   * effects and returns the updated Pokemon.
+   * use takes a target pokemon and applies the effects/damage
    */
-  use: (pokemon: Pokemon) => Pokemon;
+  use: (pokemon: Pokemon) => void;
 }
 
 export interface Pokemon {
   name: string;
-  
+
   /**
    * Stats (fixed during battle).
    */

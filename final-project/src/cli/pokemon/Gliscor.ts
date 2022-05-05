@@ -1,4 +1,5 @@
 import { Ability, CurrentStatus, Item, Move, Pokemon } from "./types";
+import { calculateSpecialAttackDamage } from "./utils";
 
 export class Gliscor implements Pokemon {
   public name: string;
@@ -45,7 +46,12 @@ export class Gliscor implements Pokemon {
       totalPP: 10,
       power: 100,
       use: (pokemon: Pokemon) => {
-        return this;
+        const damage = calculateSpecialAttackDamage(
+          this.move1.power!,
+          this,
+          pokemon
+        );
+        pokemon.currentHp = Math.max(0, pokemon.currentHp - damage);
       },
     };
 
@@ -53,8 +59,9 @@ export class Gliscor implements Pokemon {
       name: "Roost",
       currentPP: 14,
       totalPP: 14,
-      use: (pokemon: Pokemon) => {
-        return this;
+      use: (_pokemon: Pokemon) => {
+        const healAmount = Math.round(this.totalHp / 2);
+        this.currentHp = Math.min(this.currentHp + healAmount, this.totalHp);
       },
     };
 
