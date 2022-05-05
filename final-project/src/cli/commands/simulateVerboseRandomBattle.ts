@@ -1,5 +1,4 @@
 import { Command } from "commander";
-import cliProgress from "cli-progress";
 
 import { battle } from "../battle/battle";
 import { Item } from "../pokemon/types";

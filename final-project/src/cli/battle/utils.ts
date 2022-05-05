@@ -1,3 +1,4 @@
+import colors from "colors";
 import { In } from "typeorm";
 
 import { head, orderBy, sample } from "lodash/fp";
@@ -171,7 +172,7 @@ export const handleTurn = async (
       where: {
         situation,
         pokemonName: attacker.name,
-        move: In(availableMoves),
+        move: In(availableMoves.map((key) => attacker[key].name)),
       },
     });
 
@@ -183,12 +184,19 @@ export const handleTurn = async (
         winRate: r.wins / r.occurrences,
       }));
 
-      const bestMoveName = head(
-        orderBy("winRate", "desc", hydratedMcRows)
-      )!.move;
+      const bestMove = head(orderBy("winRate", "desc", hydratedMcRows))!;
+
+      verbose &&
+        console.log(
+          colors.magenta(
+            `Monte Carlo: Best move for Gliscor here is ${
+              bestMove.move
+            }, with win rate of ${bestMove.winRate * 100}%`
+          )
+        );
 
       ["move1", "move2", "move3", "move4"].forEach((key) => {
-        if (attacker[key].name === bestMoveName) {
+        if (attacker[key].name === bestMove.move) {
           selectedMoveKey = key;
         }
       });
