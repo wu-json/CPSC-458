@@ -1,4 +1,5 @@
 import { Ability, CurrentStatus, Item, Move, Pokemon } from "./types";
+import { calculatePhysicalAttackDamage } from "./utils";
 
 export class Snorlax implements Pokemon {
   public name: string;
@@ -56,7 +57,12 @@ export class Snorlax implements Pokemon {
       totalPP: 15,
       power: 75,
       use: (pokemon: Pokemon) => {
-        return this;
+        const damage = calculatePhysicalAttackDamage(
+          this.move2.power!,
+          this,
+          pokemon
+        );
+        pokemon.currentHp = Math.max(0, pokemon.currentHp - damage);
       },
     };
 
@@ -66,7 +72,12 @@ export class Snorlax implements Pokemon {
       totalPP: 15,
       power: 50,
       use: (pokemon: Pokemon) => {
-        return this;
+        const damage = calculatePhysicalAttackDamage(
+          this.move3.power!,
+          this,
+          pokemon
+        );
+        pokemon.currentHp = Math.max(0, pokemon.currentHp - damage);
       },
     };
 
@@ -76,7 +87,12 @@ export class Snorlax implements Pokemon {
       totalPP: 15,
       power: 80,
       use: (pokemon: Pokemon) => {
-        return this;
+        const damage = calculatePhysicalAttackDamage(
+          this.move4.power!,
+          this,
+          pokemon
+        );
+        pokemon.currentHp = Math.max(0, pokemon.currentHp - damage);
       },
     };
   }
