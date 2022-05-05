@@ -1,3 +1,4 @@
+import colors from "colors";
 import { Pokemon } from "../pokemon/types";
 import {
   applyPregameItemUpdates,
@@ -65,9 +66,10 @@ export const battle = async (
       console.log("---------------------------------------------------");
     verbose &&
       console.log(
-        `Turn: ${turn}, ${pokemon1.name}: ${pokemon1.currentHp} hp, ${pokemon2.name}: ${pokemon2.currentHp} hp`
+        colors.green(
+          `Turn: ${turn}, ${pokemon1.name}: ${pokemon1.currentHp} hp, ${pokemon2.name}: ${pokemon2.currentHp} hp`
+        )
       );
-    verbose && console.log("----------");
     outcome = await handleTurn(
       fasterPokemon,
       slowerPokemon,
@@ -84,9 +86,10 @@ export const battle = async (
       console.log("---------------------------------------------------");
     verbose &&
       console.log(
-        `Turn: ${turn}, ${pokemon1.name}: ${pokemon1.currentHp} hp, ${pokemon2.name}: ${pokemon2.currentHp} hp`
+        colors.green(
+          `Turn: ${turn}, ${pokemon1.name}: ${pokemon1.currentHp} hp, ${pokemon2.name}: ${pokemon2.currentHp} hp`
+        )
       );
-    verbose && console.log("----------");
     outcome = await handleTurn(
       slowerPokemon,
       fasterPokemon,
