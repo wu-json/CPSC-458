@@ -139,6 +139,7 @@ export const handleTurn = (attacker: Pokemon, defender: Pokemon): Outcome => {
   const isDamagingMove = !!attacker[selectedMoveKey!].power;
   const defenderOldStatus = defender.status;
   const defenderOldHp = defender.currentHp;
+  const attackerOldHp = attacker.currentHp;
 
   /**
    * Handle protect case, otherwise just use the move.
@@ -159,7 +160,16 @@ export const handleTurn = (attacker: Pokemon, defender: Pokemon): Outcome => {
     );
   } else {
     attacker[selectedMoveKey!].use(defender);
-    console.log(`${attacker.name} used ${attacker[selectedMoveKey!].name}.`);
+    const hpDiff = attacker.currentHp - attackerOldHp;
+    if (hpDiff > 0) {
+      console.log(
+        `${attacker.name} used ${
+          attacker[selectedMoveKey!].name
+        } and healed ${hpDiff} hp.`
+      );
+    } else {
+      console.log(`${attacker.name} used ${attacker[selectedMoveKey!].name}.`);
+    }
   }
 
   attacker[selectedMoveKey!].currentPP--;
