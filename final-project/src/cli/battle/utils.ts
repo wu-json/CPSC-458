@@ -23,3 +23,16 @@ export const shouldSkipFromParalysisOrSleep = (pokemon: Pokemon): boolean => {
     return false;
   }
 };
+
+export const handleTurn = (attacker: Pokemon, defender: Pokemon) => {
+  /**
+   * Handle sleep and paralyzed status ailments.
+   */
+  const skipFromParalysisOrSleep = shouldSkipFromParalysisOrSleep(attacker);
+
+  /**
+   * Handle turn.
+   */
+  if (!skipFromParalysisOrSleep) {
+  }
+};
