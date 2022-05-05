@@ -31,7 +31,7 @@ export const printHp = (pokemon1: Pokemon, pokemon2: Pokemon) => {
   );
 };
 
-const hasAvailableMoves = (pokemon: Pokemon) =>
+export const hasAvailableMoves = (pokemon: Pokemon) =>
   ["move1", "move2", "move3", "move4"].filter(
     (key) => pokemon[key].currentPP > 0
   ).length > 0;
