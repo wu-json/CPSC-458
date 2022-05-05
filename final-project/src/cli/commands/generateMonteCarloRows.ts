@@ -1,8 +1,6 @@
 import bluebird from "bluebird";
 import { Command } from "commander";
 import cliProgress from "cli-progress";
-import { In } from "typeorm";
-import { keyBy } from "lodash/fp";
 
 import { battle } from "../battle/battle";
 import dataSource from "../connections/typeorm";
