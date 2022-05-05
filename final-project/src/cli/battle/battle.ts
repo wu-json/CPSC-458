@@ -46,7 +46,9 @@ export const battle = async (
   }
 
   if (outcome.outcome === "winner") {
-    console.log(`Outcome: ${outcome.winner?.name} won!`);
+    console.log(
+      `Outcome: ${outcome.winner?.name} won with ${outcome.winner?.currentHp} hp remaining!`
+    );
   } else {
     console.log(`Outcome: draw!`);
   }
