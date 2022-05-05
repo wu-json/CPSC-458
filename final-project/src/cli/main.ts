@@ -2,6 +2,7 @@ import { Command } from "commander";
 import generateMonteCarloRows from "./commands/generateMonteCarloRows";
 import simulateMonteCarloBattles from "./commands/simulateMonteCarloBattles";
 import simulateRandomBattles from "./commands/simulateRandomBattles";
+import simulateVerboseRandomBattle from "./commands/simulateVerboseRandomBattle";
 import viewMonteCarloBattleStats from "./commands/viewMonteCarloBattleStats";
 import viewRandomBattleStats from "./commands/viewRandomBattleStats";
 
@@ -13,6 +14,7 @@ program
   .addCommand(generateMonteCarloRows)
   .addCommand(simulateMonteCarloBattles)
   .addCommand(simulateRandomBattles)
+  .addCommand(simulateVerboseRandomBattle)
   .addCommand(viewMonteCarloBattleStats)
   .addCommand(viewRandomBattleStats);
 
