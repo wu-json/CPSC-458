@@ -25,7 +25,7 @@ export class MonteCarlo extends BaseEntity {
   pokemonName: string;
 
   @Column()
-  move: number;
+  move: string;
 
   @Column({ default: 0 })
   occurrences: number;
