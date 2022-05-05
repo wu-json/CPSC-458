@@ -67,7 +67,7 @@ export class Gliscor implements Pokemon {
       },
     };
 
-    this.move1 = {
+    this.move3 = {
       name: "Protect",
       currentPP: 10,
       totalPP: 10,
@@ -76,7 +76,7 @@ export class Gliscor implements Pokemon {
       },
     };
 
-    this.move1 = {
+    this.move4 = {
       name: "Toxic",
       currentPP: 12,
       totalPP: 12,
