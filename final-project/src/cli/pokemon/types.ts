@@ -50,6 +50,7 @@ export interface Pokemon {
   currentHp: number;
   status: CurrentStatus | null;
   item: Item | null;
+  isProtected: boolean;
 
   /**
    * Moves.

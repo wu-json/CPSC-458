@@ -14,6 +14,7 @@ export class Snorlax implements Pokemon {
   public currentHp: number;
   public status: CurrentStatus | null;
   public item: Item | null;
+  public isProtected: boolean;
 
   public move1: Move;
   public move2: Move;
@@ -38,6 +39,7 @@ export class Snorlax implements Pokemon {
     this.currentHp = this.totalHp;
     this.status = null;
     this.item = item;
+    this.isProtected = false;
 
     this.move1 = {
       name: "Rest",

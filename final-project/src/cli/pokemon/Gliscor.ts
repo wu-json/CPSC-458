@@ -15,6 +15,7 @@ export class Gliscor implements Pokemon {
   public currentHp: number;
   public status: CurrentStatus | null;
   public item: Item | null;
+  public isProtected: boolean;
 
   public move1: Move;
   public move2: Move;
@@ -39,6 +40,7 @@ export class Gliscor implements Pokemon {
     this.currentHp = this.totalHp;
     this.status = null;
     this.item = item;
+    this.isProtected = false;
 
     this.move1 = {
       name: "Earthquake",
@@ -69,8 +71,8 @@ export class Gliscor implements Pokemon {
       name: "Protect",
       currentPP: 10,
       totalPP: 10,
-      use: (pokemon: Pokemon) => {
-        return this;
+      use: (_pokemon: Pokemon) => {
+        this.isProtected = true;
       },
     };
 
