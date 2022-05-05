@@ -24,6 +24,35 @@ export const shouldSkipFromParalysisOrSleep = (pokemon: Pokemon): boolean => {
   }
 };
 
+const hasAvailableMoves = (pokemon: Pokemon) =>
+  ["move1", "move2", "move3", "move4"].filter(
+    (key) => pokemon[key].currentPP > 0
+  ).length > 0;
+
+export type Outcome = {
+  winner?: Pokemon;
+  outcome?: "draw" | "winner";
+};
+
+export const checkForOutcome = (
+  pokemon1: Pokemon,
+  pokemon2: Pokemon
+): Outcome => {
+  if (!hasAvailableMoves(pokemon1) || !hasAvailableMoves(pokemon2)) {
+    return { outcome: "draw" };
+  }
+
+  if (pokemon1.currentHp === 0) {
+    return { outcome: "winner", winner: pokemon2 };
+  }
+
+  if (pokemon2.currentHp === 0) {
+    return { outcome: "winner", winner: pokemon1 };
+  }
+
+  return {};
+};
+
 export const handleTurn = (attacker: Pokemon, defender: Pokemon) => {
   /**
    * Handle sleep and paralyzed status ailments.
@@ -31,8 +60,11 @@ export const handleTurn = (attacker: Pokemon, defender: Pokemon) => {
   const skipFromParalysisOrSleep = shouldSkipFromParalysisOrSleep(attacker);
 
   /**
-   * Handle turn.
+   * Handle move.
    */
   if (!skipFromParalysisOrSleep) {
+    const availableMoves = ["move1", "move2", "move3", "move4"].filter(
+      (key) => attacker[key].currentPP > 0
+    );
   }
 };

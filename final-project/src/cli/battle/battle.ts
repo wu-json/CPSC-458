@@ -1,16 +1,12 @@
 import { Pokemon } from "../pokemon/types";
-import { handleTurn } from "./utils";
-
-type BattleResult = {
-  winner: Pokemon;
-  loser: Pokemon;
-};
+import { checkForOutcome, handleTurn, Outcome } from "./utils";
 
 export const battle = async (
   pokemon1: Pokemon,
   pokemon2: Pokemon
-): Promise<BattleResult> => {
+): Promise<Outcome> => {
   let turn = 0;
+  let outcome: Outcome = checkForOutcome(pokemon1, pokemon2);
 
   while (pokemon1.currentHp > 0 || pokemon2.currentHp > 0) {
     const fasterPokemon =
@@ -23,11 +19,17 @@ export const battle = async (
     handleTurn(fasterPokemon, slowerPokemon);
     turn++;
 
+    outcome = checkForOutcome(fasterPokemon, slowerPokemon);
+    if (outcome) break;
+
     console.log(`Turn: ${turn}`);
 
     handleTurn(slowerPokemon, fasterPokemon);
     turn++;
+
+    outcome = checkForOutcome(slowerPokemon, fasterPokemon);
+    if (outcome) break;
   }
 
-  return { winner: pokemon1, loser: pokemon2 };
+  return outcome;
 };

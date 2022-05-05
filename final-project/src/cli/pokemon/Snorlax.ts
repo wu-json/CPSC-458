@@ -70,6 +70,7 @@ export class Snorlax implements Pokemon {
       },
     };
 
+    // TODO: add paralysis
     this.move3 = {
       name: "Body Slam",
       currentPP: 15,
