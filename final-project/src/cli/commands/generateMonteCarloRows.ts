@@ -89,6 +89,13 @@ const generateMonteCarloRows = new Command()
       }
       progressBar.stop();
 
+      /**
+       * Results
+       */
+      console.log("---------------------------------");
+      console.log("Finished adding rows to Monte Carlo table.");
+      console.log("---------------------------------");
+
       process.exit(0);
     } catch (error) {
       console.error(`Something went wrong: ${error}`);
