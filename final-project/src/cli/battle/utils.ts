@@ -93,7 +93,10 @@ export const applyPostTurnStatusUpdates = (pokemon: Pokemon) => {
     const hpDiff = pokemon.currentHp - startingHp;
     console.log(`${pokemon.name} healed ${hpDiff} hp from poison heal.`);
   } else if (isPoisoned) {
-    const multiplier = pokemon.status.turnsPassedSinceInflicted + 1;
+    const multiplier = Math.min(
+      15,
+      pokemon.status.turnsPassedSinceInflicted + 1
+    );
     const damageAmount = Math.round(pokemon.totalHp / 16) * multiplier;
     pokemon.currentHp = Math.max(0, pokemon.currentHp - damageAmount);
     const hpDiff = startingHp - pokemon.currentHp;
@@ -121,6 +124,11 @@ export const applyPostTurnItemUpdates = (pokemon: Pokemon) => {
   }
 };
 
+/**
+ * This function handles a turn, and regularly checks if an outcome state
+ * has been achieved. It is also responsible for inflicting status-related
+ * damage, applying item effects, and handling moves + PP management.
+ */
 export const handleTurn = (attacker: Pokemon, defender: Pokemon): Outcome => {
   /**
    * Handle sleep and paralyzed status ailments.
