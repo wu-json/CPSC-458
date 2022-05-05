@@ -36,9 +36,21 @@ const viewRandomBattleStats = new Command()
 
       console.log("---------------------------------");
       console.log(`${totalRows} total battles.`);
-      console.log(`Gliscor won ${totalGliscorWins} times.`);
-      console.log(`Snorlax won ${totalSnorlaxWins} times.`);
-      console.log(`Ended in a draw ${totalDraws} times.`);
+      console.log(
+        `Gliscor won ${totalGliscorWins} times (${
+          (totalGliscorWins / totalRows) * 100
+        }% win rate).`
+      );
+      console.log(
+        `Snorlax won ${totalSnorlaxWins} times (${
+          (totalSnorlaxWins / totalRows) * 100
+        }% win rate).`
+      );
+      console.log(
+        `Ended in a draw ${totalDraws} times (${
+          (totalDraws / totalRows) * 100
+        }% draw rate).`
+      );
       console.log("---------------------------------");
 
       process.exit(0);

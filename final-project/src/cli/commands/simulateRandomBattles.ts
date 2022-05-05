@@ -77,9 +77,21 @@ const simulateRandomBattles = new Command()
 
       console.log("---------------------------------");
       console.log(`Simulated ${battlesSimulated} total battles.`);
-      console.log(`Gliscor won ${gliscorWins} times.`);
-      console.log(`Snorlax won ${snorlaxWins} times.`);
-      console.log(`Ended in a draw ${draws} times.`);
+      console.log(
+        `Gliscor won ${gliscorWins} times (${
+          (gliscorWins / battlesSimulated) * 100
+        }% win rate).`
+      );
+      console.log(
+        `Snorlax won ${snorlaxWins} times (${
+          (snorlaxWins / battlesSimulated) * 100
+        }% win rate).`
+      );
+      console.log(
+        `Ended in a draw ${draws} times (${
+          (draws / battlesSimulated) * 100
+        }% draw rate).`
+      );
       console.log("---------------------------------");
 
       process.exit(0);
