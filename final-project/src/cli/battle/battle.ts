@@ -17,9 +17,16 @@ export const battle = async (
   pokemon2: Pokemon,
   options: {
     verbose?: boolean;
+    useMonteCarloStrategy?: boolean;
   } = {}
 ): Promise<OutcomeWithTrackedMoves> => {
-  const { verbose } = options;
+  const { verbose, useMonteCarloStrategy } = options;
+
+  if (useMonteCarloStrategy && verbose) {
+    console.log(
+      `Note that monte carlo strategy only works for Gliscor. When useMonteCarloStrategy is set to true, Snorlax will still use a random strategy.`
+    );
+  }
 
   /**
    * We store tracked moves for each pokemon here.
@@ -59,11 +66,11 @@ export const battle = async (
       console.log(
         `Turn: ${turn}, ${pokemon1.name}: ${pokemon1.currentHp} hp, ${pokemon2.name}: ${pokemon2.currentHp} hp`
       );
-    outcome = handleTurn(
+    outcome = await handleTurn(
       fasterPokemon,
       slowerPokemon,
       fasterPokemonTrackedMoves,
-      verbose
+      { verbose, useMonteCarloStrategy }
     );
     if (outcome.outcome) break;
     turn++;
@@ -76,11 +83,11 @@ export const battle = async (
       console.log(
         `Turn: ${turn}, ${pokemon1.name}: ${pokemon1.currentHp} hp, ${pokemon2.name}: ${pokemon2.currentHp} hp`
       );
-    outcome = handleTurn(
+    outcome = await handleTurn(
       slowerPokemon,
       fasterPokemon,
       slowerPokemonTrackedMoves,
-      verbose
+      { verbose, useMonteCarloStrategy }
     );
     if (outcome.outcome) break;
     turn++;

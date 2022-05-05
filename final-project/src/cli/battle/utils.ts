@@ -1,6 +1,9 @@
-import { sample } from "lodash/fp";
+import { In } from "typeorm";
+
+import { head, orderBy, sample } from "lodash/fp";
 import { Ability, Item, Pokemon, Status } from "../pokemon/types";
 import { TrackedMove } from "./types";
+import { MonteCarlo } from "../entity/MonteCarlo";
 
 export const shouldSkipFromStatus = (
   pokemon: Pokemon,
@@ -130,12 +133,17 @@ export const applyPostTurnItemUpdates = (
  * has been achieved. It is also responsible for inflicting status-related
  * damage, applying item effects, and handling moves + PP management.
  */
-export const handleTurn = (
+export const handleTurn = async (
   attacker: Pokemon,
   defender: Pokemon,
   trackedMoves: TrackedMove[],
-  verbose: boolean = false
-): Outcome => {
+  options: {
+    verbose?: boolean;
+    useMonteCarloStrategy?: boolean;
+  } = {}
+): Promise<Outcome> => {
+  const { verbose, useMonteCarloStrategy } = options;
+
   /**
    * Handle status ailments that result in skipping turns.
    */
@@ -149,7 +157,46 @@ export const handleTurn = (
     (key) => attacker[key].currentPP > 0
   );
 
-  const selectedMoveKey = sample(availableMoves);
+  /**
+   * Situation for Monte Carlo indexing.
+   */
+  const situation = `${attacker.currentHp}:${defender.currentHp}:${attacker.status?.status}:${defender.status?.status}`;
+
+  /**
+   * Select a move.
+   */
+  let selectedMoveKey: string;
+  if (useMonteCarloStrategy && attacker.name === "Gliscor") {
+    const monteCarloRows = await MonteCarlo.find({
+      where: {
+        situation,
+        pokemonName: attacker.name,
+        move: In(availableMoves),
+      },
+    });
+
+    if (monteCarloRows.length === 0) {
+      selectedMoveKey = sample(availableMoves)!;
+    } else {
+      const hydratedMcRows = monteCarloRows.map((r) => ({
+        ...r,
+        winRate: r.wins / r.occurrences,
+      }));
+
+      const bestMoveName = head(
+        orderBy("winRate", "desc", hydratedMcRows)
+      )!.move;
+
+      ["move1", "move2", "move3", "move4"].forEach((key) => {
+        if (attacker[key].name === bestMoveName) {
+          selectedMoveKey = key;
+        }
+      });
+    }
+  } else {
+    selectedMoveKey = sample(availableMoves)!;
+  }
+
   const isDamagingMove = !!attacker[selectedMoveKey!].power;
   const defenderOldStatus = defender.status;
   const defenderOldHp = defender.currentHp;
@@ -159,7 +206,7 @@ export const handleTurn = (
    * Track moves for Monte Carlo simulation.
    */
   trackedMoves.push({
-    situation: `${attacker.currentHp}:${defender.currentHp}:${attacker.status?.status}:${defender.status?.status}`,
+    situation,
     moveName: attacker[selectedMoveKey!].name,
   });
 
