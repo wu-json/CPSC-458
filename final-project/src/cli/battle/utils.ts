@@ -1,3 +1,4 @@
+import { sample } from "lodash/fp";
 import { Pokemon, Status } from "../pokemon/types";
 
 export const shouldSkipFromParalysisOrSleep = (pokemon: Pokemon): boolean => {
@@ -72,5 +73,31 @@ export const handleTurn = (attacker: Pokemon, defender: Pokemon) => {
     const availableMoves = ["move1", "move2", "move3", "move4"].filter(
       (key) => attacker[key].currentPP > 0
     );
+
+    const selectedMoveKey = sample(availableMoves);
+    const isDamagingMove = !!attacker[selectedMoveKey!].power;
+    const defenderOldStatus = defender.status;
+
+    /**
+     * Handle protect case.
+     */
+    if (isDamagingMove && defender.isProtected) {
+      console.log(
+        `${attacker.name} used ${attacker[selectedMoveKey!].name} but ${
+          defender.name
+        } protected itself.`
+      );
+    } else {
+      attacker[selectedMoveKey!].use(defender);
+      console.log(`${attacker.name} used ${attacker[selectedMoveKey!].name}.`);
+    }
+
+    defender.isProtected = false;
+
+    if (defenderOldStatus !== defender.status && !!defender.status?.status) {
+      console.log(
+        `${defender.name} is now inflicted by ${defender.status.status}`
+      );
+    }
   }
 };
