@@ -1,5 +1,5 @@
 import { sample } from "lodash/fp";
-import { Ability, Pokemon, Status } from "../pokemon/types";
+import { Ability, Item, Pokemon, Status } from "../pokemon/types";
 
 export const shouldSkipFromParalysisOrSleep = (pokemon: Pokemon): boolean => {
   if (pokemon.status?.status === Status.Paralyzed) {
@@ -86,6 +86,21 @@ export const applyPostTurnStatusUpdates = (pokemon: Pokemon) => {
   pokemon.status.turnsPassedSinceInflicted++;
 };
 
+export const applyPostTurnItemUpdates = (pokemon: Pokemon) => {
+  if (!pokemon.item) {
+    return;
+  }
+
+  if (pokemon.item === Item.Leftovers) {
+    const healAmount = Math.round(pokemon.totalHp / 16);
+    pokemon.currentHp = Math.min(
+      pokemon.totalHp,
+      pokemon.currentHp + healAmount
+    );
+    console.log(`${pokemon.name} healed some hp from leftovers.`);
+  }
+};
+
 export const handleTurn = (attacker: Pokemon, defender: Pokemon) => {
   /**
    * Handle sleep and paralyzed status ailments.
@@ -126,7 +141,10 @@ export const handleTurn = (attacker: Pokemon, defender: Pokemon) => {
       );
     }
 
-    applyPostTurnStatusUpdates(attacker);
+    /**
+     * Apply post-turn events.
+     */
     applyPostTurnStatusUpdates(defender);
+    applyPostTurnItemUpdates(defender);
   }
 };
