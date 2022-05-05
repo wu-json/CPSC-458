@@ -302,3 +302,46 @@ Notice that Gliscor only seems to have a win-rate of around `42.397%` while usin
 In a random strategy, Gliscor probably won't follow the steps above. Instead, it will probably make ineffective decisions (e.g not poisoning the enemy Pokemon as early as possible) that will result in it losing most of the time. Snorlax on the other hand, has a much less predominant strategy, as most of his moves deal constant damage. Thus, it makes sense why Snorlax would perform better even by randomly selecting moves.
 
 The question here becomes the following: will a Monte Carlo decision table eventually learn the optimal Gliscor strategy? Let's try it out to find out.
+
+## Defining a Monte Carlo Table for Gliscor
+
+To generate a Monte Carlo table for Gliscor, we need to first decide on an index of the current situation to use for the table. A Monte Carlo table works by checking `win rates` of different `moves/choices` made in different `situations`, and choosing the best one. This means we must first define a situation in our design of the table.
+
+We use the following definition for situation:
+
+```bash
+# format
+gliscor-hp:snorlax-hp:gliscor-status-ailment:snorlax-status-ailment
+
+# example situations
+37:158:undefined:undefined
+37:160:undefined:Sleep
+57:150:undefined:Poisoned
+```
+
+We use the above definition of a situation because HP and status are the most critical factors for making a decision in the Gliscor strategy. If the opponent is poisoned, Gliscor should focus on stalling. If the opponent is high HP and has no status ailment, Gliscor should focus on poisoning. Consequently, the above would be a great index for defining a situation in which moves can be made.
+
+The table structure in Postgres is defined in `src/entity/MonteCarlo.ts`. Note how situation, pokemon name, and moves are indexed in order to make queries faster for running the Monte Carlo strategy.
+
+## Populating the Monte Carlo Table
+
+To populate the Monte Carlo table, we need to run a bunch of random choice simulations, and then store each decision Gliscor makes in the battle along with the outcome of the battle. This is thankfully easy since `battle` returns the tracked moves of each Pokemon after the battle, which allows us to iterate and save these decisions with the outcome.
+
+To populate the Monte Carlo table, run this command:
+
+```bash
+yarn cli generate-monte-carlo-rows 100000
+
+# output
+---------------------------------
+Initializing data source...
+Data source initialized.
+---------------------------------
+Simulating 100000 battles.
+ ████████████████████████████████████████ 100% | ETA: 0s | 100000/100000
+---------------------------------
+Finished adding rows to Monte Carlo table.
+---------------------------------
+```
+
+This command takes a lot of time because of the queries and updates involved with populating the table rows. I ran the above overnight and it generated around 12,000 total rows. If you don't want to wait that long but still want to see the data, I have a data dump with my Postgres data you can import. The instructions for this are at the very end of this ReadMe.
