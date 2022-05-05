@@ -144,7 +144,7 @@ While `battle` is an extremely easy method to call, it is the most complicated f
 
 ## Simulation Tests
 
-There are a lot of subtle specifics on how a Pokemon battle is managed, so to make sure I didn't introduce bugs anywhere I wrote several unit tests. These tests are available in `__tests__` in the root directory. I wrote these tests using the [Jest](https://jestjs.io/), which is the industry standard testing framework for TypeScript.
+There are a lot of subtle specifics on how a Pokemon battle is managed (e.g, how status ailments/item effects are applied), so to make sure I didn't introduce bugs anywhere I wrote several unit tests. These tests are available in `__tests__` in the root directory. I wrote these tests using the [Jest](https://jestjs.io/), which is the industry standard testing framework for TypeScript.
 
 I wrote tests for both the individual Pokemon moves (e.g, Gliscor using Earthquake), as well as for a lot of the utility functions for the `battle` function implementation. This ended up being super helpful for catching bugs. I also set up a GitHub action on [my repository](https://github.com/wu-json/CPSC-458/tree/main/final-project) to ensure tests would be run every time I committed to main.
 
@@ -157,3 +157,37 @@ yarn
 # run tests
 yarn test
 ```
+
+## Writing the Project CLI
+
+Using the Commander npm package organizing the CLI code was rather straightforward. Implementations for commands can be found in `src/cli/commands`. Each command has its own file. I also made it such that some commands make a connection to the Postgres database, meaning that saving game outcomes or pulling Monte Carlo decisions can be done within the command implementations.
+
+To view more info on the CLI, you can run the following
+
+```bash
+yarn cli --help
+
+Commands:
+  generate-monte-carlo-rows [battles]  Simulate random strategy battles and save them as Monte Carlo rows.
+  sim-monte-carlo-battles [battles]    Simulate monte carlo strategy battles and save their results into Postgres
+  sim-random-battles [battles]         Simulate random strategy battles and save their results into Postgres
+  sim-verbose-random-battle            Simulate a verbose random battle
+  sim-verbose-monte-carlo-battle       Simulate a verbose monte carlo battle
+  view-monte-carlo-battle-stats        See an overview of the win rates of Gliscor vs. Snorlax
+  view-random-battle-stats             See an overview of the win rates of Gliscor vs. Snorlax
+  help [command]                       display help for command
+```
+
+## How to Run the CLI Yourself
+
+To run real commands on the CLI, you will need to run the following commands first to install packages and set up a local Postgres instance:
+
+```bash
+# install packages
+yarn
+
+# start local postgres (you need docker-compose install for this)
+docker-compose up
+```
+
+If you do not have docker-compose installed you can download it [here](https://docs.docker.com/compose/).

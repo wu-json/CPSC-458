@@ -12,7 +12,7 @@ import { Snorlax } from "../pokemon/Snorlax";
 const generateMonteCarloRows = new Command()
   .command("generate-monte-carlo-rows")
   .description(
-    "Simulate random strategy battles and save them as Monte Carlo rows."
+    "Simulate random strategy battles and save them as Monte Carlo rows"
   )
   .argument("[battles]", "How many simulated battles to run")
   .action(async (battles: string) => {
