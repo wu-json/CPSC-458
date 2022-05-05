@@ -17,12 +17,6 @@ export const shouldSkipFromStatus = (pokemon: Pokemon): boolean => {
   }
 };
 
-export const printHp = (pokemon1: Pokemon, pokemon2: Pokemon) => {
-  console.log(
-    `${pokemon1.name}: ${pokemon1.currentHp} hp, ${pokemon2.name}: ${pokemon2.currentHp} hp`
-  );
-};
-
 export const hasAvailableMoves = (pokemon: Pokemon) =>
   ["move1", "move2", "move3", "move4"].filter(
     (key) => pokemon[key].currentPP > 0

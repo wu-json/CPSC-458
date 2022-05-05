@@ -4,7 +4,6 @@ import {
   checkForOutcome,
   handleTurn,
   Outcome,
-  printHp,
 } from "./utils";
 
 export const battle = async (
@@ -29,8 +28,10 @@ export const battle = async (
     /**
      * Faster Pokemon's turn.
      */
-    console.log(`Turn: ${turn}`);
-    printHp(pokemon1, pokemon2);
+    console.log("---------------------------------");
+    console.log(
+      `Turn: ${turn}, ${pokemon1.name}: ${pokemon1.currentHp} hp, ${pokemon2.name}: ${pokemon2.currentHp} hp`
+    );
     outcome = handleTurn(fasterPokemon, slowerPokemon);
     if (outcome.outcome) break;
     turn++;
@@ -38,13 +39,16 @@ export const battle = async (
     /**
      * Slower Pokemon's turn.
      */
-    console.log(`Turn: ${turn}`);
-    printHp(pokemon1, pokemon2);
+    console.log("---------------------------------");
+    console.log(
+      `Turn: ${turn}, ${pokemon1.name}: ${pokemon1.currentHp} hp, ${pokemon2.name}: ${pokemon2.currentHp} hp`
+    );
     outcome = handleTurn(slowerPokemon, fasterPokemon);
     if (outcome.outcome) break;
     turn++;
   }
 
+  console.log("---------------------------------");
   if (outcome.outcome === "winner") {
     console.log(
       `Outcome: ${outcome.winner?.name} won with ${outcome.winner?.currentHp} hp remaining!`
