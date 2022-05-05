@@ -1,5 +1,5 @@
 import { DataSource } from "typeorm";
-import { Move } from "../entity/Move";
+import { MonteCarlo } from "../entity/MonteCarlo";
 
 const dataSource = new DataSource({
   type: "postgres",
@@ -7,8 +7,8 @@ const dataSource = new DataSource({
   port: 5432,
   username: "user",
   password: "pass",
-  database: "pokemon-simulation",
-  entities: [Move],
+  database: "pokemon",
+  entities: [MonteCarlo],
   synchronize: true,
 });
 

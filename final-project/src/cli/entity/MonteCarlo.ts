@@ -9,7 +9,7 @@ import {
 } from "typeorm";
 
 @Entity()
-export class Move extends BaseEntity {
+export class MonteCarlo extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
