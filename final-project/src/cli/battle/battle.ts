@@ -45,5 +45,11 @@ export const battle = async (
     turn++;
   }
 
+  if (outcome.outcome === "winner") {
+    console.log(`Outcome: ${outcome.winner?.name} won!`);
+  } else {
+    console.log(`Outcome: draw!`);
+  }
+
   return outcome;
 };
