@@ -1,5 +1,6 @@
 import { sample } from "lodash/fp";
 import { Ability, Item, Pokemon, Status } from "../pokemon/types";
+import { TrackedMove } from "./types";
 
 export const shouldSkipFromStatus = (
   pokemon: Pokemon,
@@ -132,6 +133,7 @@ export const applyPostTurnItemUpdates = (
 export const handleTurn = (
   attacker: Pokemon,
   defender: Pokemon,
+  trackedMoves: TrackedMove[],
   verbose: boolean = false
 ): Outcome => {
   /**
@@ -152,6 +154,14 @@ export const handleTurn = (
   const defenderOldStatus = defender.status;
   const defenderOldHp = defender.currentHp;
   const attackerOldHp = attacker.currentHp;
+
+  /**
+   * Track moves for Monte Carlo simulation.
+   */
+  trackedMoves.push({
+    situation: `${attacker.currentHp}:${defender.currentHp}:${attacker.status?.status}:${defender.status?.status}`,
+    moveName: attacker[selectedMoveKey!].name,
+  });
 
   /**
    * Handle protect case, otherwise just use the move.
