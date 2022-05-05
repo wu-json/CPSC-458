@@ -43,7 +43,7 @@ export class Gliscor implements Pokemon {
       name: "Earthquake",
       currentPP: 10,
       totalPP: 10,
-      accuracy: 100,
+      power: 100,
       use: (pokemon: Pokemon) => {
         return this;
       },
@@ -71,7 +71,6 @@ export class Gliscor implements Pokemon {
       name: "Toxic",
       currentPP: 12,
       totalPP: 12,
-      accuracy: 100,
       use: (pokemon: Pokemon) => {
         return this;
       },

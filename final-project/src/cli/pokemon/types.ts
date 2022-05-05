@@ -23,7 +23,7 @@ export interface Move {
   name: string;
   currentPP: number;
   totalPP: number;
-  accuracy?: number;
+  power?: number;
   /**
    * use takes a target pokemon, applies the
    * effects and returns the updated Pokemon.

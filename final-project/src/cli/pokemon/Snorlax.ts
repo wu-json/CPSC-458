@@ -21,8 +21,8 @@ export class Snorlax implements Pokemon {
   public move4: Move;
 
   public constructor(item: Item | null = null) {
-    this.name = 'Snorlax';
-    
+    this.name = "Snorlax";
+
     /**
      * Stats taken from Smogon:
      * https://www.smogon.com/dex/sm/pokemon/snorlax/battle-spot-singles/
@@ -52,7 +52,7 @@ export class Snorlax implements Pokemon {
       name: "Fire Punch",
       currentPP: 15,
       totalPP: 15,
-      accuracy: 100,
+      power: 75,
       use: (pokemon: Pokemon) => {
         return this;
       },
@@ -62,7 +62,7 @@ export class Snorlax implements Pokemon {
       name: "Body Slam",
       currentPP: 15,
       totalPP: 15,
-      accuracy: 100,
+      power: 50,
       use: (pokemon: Pokemon) => {
         return this;
       },
@@ -72,7 +72,7 @@ export class Snorlax implements Pokemon {
       name: "Crunch",
       currentPP: 15,
       totalPP: 15,
-      accuracy: 88,
+      power: 80,
       use: (pokemon: Pokemon) => {
         return this;
       },
