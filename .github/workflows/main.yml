@@ -18,9 +18,9 @@ jobs:
           node-version: "16.14"
       - name: Checkout Repo
         uses: actions/checkout@v2
-      - name: Go to Final Project Directory
-        run: cd final-project
       - name: Install Dependencies
         run: yarn
+        working-directory: final-project
       - name: Run Tests
         run: yarn test
+        working-directory: final-project
