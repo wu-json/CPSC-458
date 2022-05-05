@@ -1,4 +1,4 @@
-name: CI
+name: Final Project
 on:
   push:
     branches: [main]
