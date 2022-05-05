@@ -180,6 +180,11 @@ Commands:
 
 ## How to Run the CLI Yourself
 
+Before you run the CLI yourself, you will need to have the following requirements set up:
+
+- [Yarn](https://yarnpkg.com/getting-started/install)
+- [Docker](https://docs.docker.com/get-docker/)
+
 To run real commands on the CLI, you will need to run the following commands first to install packages and set up a local Postgres instance:
 
 ```bash
@@ -189,5 +194,3 @@ yarn
 # start local postgres (you need docker-compose install for this)
 docker-compose up
 ```
-
-If you do not have docker-compose installed you can download it [here](https://docs.docker.com/compose/).
