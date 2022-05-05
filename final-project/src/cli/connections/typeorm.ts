@@ -1,6 +1,6 @@
 import { DataSource } from "typeorm";
 import { MonteCarlo } from "../entity/MonteCarlo";
-import { RandomStrategyOutcomes } from "../entity/RandomStrategyOutcomes";
+import { RandomStrategyOutcome } from "../entity/RandomStrategyOutcome";
 
 const dataSource = new DataSource({
   type: "postgres",
@@ -9,7 +9,7 @@ const dataSource = new DataSource({
   username: "user",
   password: "pass",
   database: "pokemon",
-  entities: [MonteCarlo, RandomStrategyOutcomes],
+  entities: [MonteCarlo, RandomStrategyOutcome],
   synchronize: true,
 });
 

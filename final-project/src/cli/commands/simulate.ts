@@ -5,10 +5,13 @@ import dataSource from "../connections/typeorm";
 import { Item } from "../pokemon/types";
 import { Gliscor } from "../pokemon/Gliscor";
 import { Snorlax } from "../pokemon/Snorlax";
+import { RandomStrategyOutcome } from "../entity/RandomStrategyOutcome";
 
 const simulate = new Command()
   .command("sim-random-battles")
-  .description("Simulate random battles")
+  .description(
+    "Simulate random strategy battles and save their results into Postgres"
+  )
   .argument("[battles]", "How many simulated battles to run")
   .action(async (battles: string) => {
     try {
@@ -26,8 +29,45 @@ const simulate = new Command()
       const battlesToSimulate = battles ? parseInt(battles) : 100;
       console.log(`Simulating ${battlesToSimulate} battles.`);
 
- 
+      let battlesSimulated = 0;
+      let gliscorWins = 0;
+      let snorlaxWins = 0;
+      let draws = 0;
 
+      while (battlesSimulated < 100) {
+        const gliscor = new Gliscor(Item.ToxicOrb);
+        const snorlax = new Snorlax(Item.Leftovers);
+
+        const result = await battle(gliscor, snorlax);
+
+        if (result.outcome === "draw") {
+          draws++;
+        } else if (result.outcome === "winner") {
+          if (result.winner?.name === "Gliscor") {
+            gliscorWins++;
+          } else {
+            snorlaxWins++;
+          }
+        }
+
+        await RandomStrategyOutcome.create({
+          pokemon1Name: gliscor.name,
+          pokemon1Item: Item.ToxicOrb,
+          pokemon2Name: snorlax.name,
+          pokemon2Item: Item.Leftovers,
+          outcome: result.outcome,
+          winner: result.winner?.name,
+        }).save();
+
+        battlesSimulated++;
+      }
+
+      console.log("---------------------------------");
+      console.log(`Simulated ${battlesSimulated} total battles.`);
+      console.log(`Gliscor won ${gliscorWins} times.`);
+      console.log(`Snorlax won ${snorlaxWins} times.`);
+      console.log(`Ended in a draw ${draws} times.`);
+      console.log("---------------------------------");
 
       process.exit(0);
     } catch (error) {

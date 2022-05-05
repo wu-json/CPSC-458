@@ -13,7 +13,7 @@ import {
  * a random strategy for selecting moves.
  */
 @Entity()
-export class RandomStrategyOutcomes extends BaseEntity {
+export class RandomStrategyOutcome extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
