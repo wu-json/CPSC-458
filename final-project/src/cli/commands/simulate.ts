@@ -35,7 +35,11 @@ const simulate = new Command()
       let draws = 0;
 
       while (battlesSimulated < 100) {
-        const gliscor = new Gliscor(Item.ToxicOrb);
+        /**
+         * Gliscor is too strong with the toxic orb so we don't give it to him.
+         * We give Snorlax leftovers as a handicap.
+         */
+        const gliscor = new Gliscor();
         const snorlax = new Snorlax(Item.Leftovers);
 
         const result = await battle(gliscor, snorlax);
@@ -52,7 +56,6 @@ const simulate = new Command()
 
         await RandomStrategyOutcome.create({
           pokemon1Name: gliscor.name,
-          pokemon1Item: Item.ToxicOrb,
           pokemon2Name: snorlax.name,
           pokemon2Item: Item.Leftovers,
           outcome: result.outcome,
