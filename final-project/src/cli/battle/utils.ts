@@ -153,7 +153,7 @@ export const handleTurn = (attacker: Pokemon, defender: Pokemon): Outcome => {
 
   if (defenderOldStatus !== defender.status && !!defender.status?.status) {
     console.log(
-      `${defender.name} is now inflicted with status: ${defender.status.status}`
+      `${defender.name} is now inflicted with status: ${defender.status.status}.`
     );
   }
 

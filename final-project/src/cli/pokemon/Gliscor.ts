@@ -86,6 +86,10 @@ export class Gliscor implements Pokemon {
             status: Status.Poisoned,
             turnsPassedSinceInflicted: 0,
           };
+        } else {
+          console.log(
+            `${pokemon.name} cannot be poisoned because it is already inflicted with a status: ${pokemon.status.status}.`
+          );
         }
       },
     };
